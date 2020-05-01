@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Bank
+namespace Bank.View.Util
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Transaction.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Transaction : UserControl
     {
-        public MainWindow()
+        public Transaction()
         {
             InitializeComponent();
         }
