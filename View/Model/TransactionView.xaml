@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Bank.View.Model.TransactionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bank.View.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="420">
+    <Border Style="{StaticResource DataItemBorder}">
+        <Grid Style="{StaticResource DarkGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Height="200" Source="{StaticResource ResourceKey=TransactionImage}" Grid.Column="0"/>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Date:"/>
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Purpose:"/>
+                <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Payer:"/>
+                <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Payer's Account:"/>
+                <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Receiver:"/>
+                <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Receiver's Account:"/>
+                <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Amount:"/>
+                <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Commission Fee:"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Date, StringFormat=dd.MM.yyyy.}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Purpose}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Payer}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding PayerAccount}"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Receiver}"/>
+                <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding ReceiverAccount}"/>
+                <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Amount, StringFormat={}{0:C}}"/>
+                <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding CommisionFee, StringFormat={}{0:C}}"/>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

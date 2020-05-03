@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Bank.View.Util.MenuSideBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bank.View.Util"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="245" MinWidth="245">
+        <Border Style="{StaticResource MenuBorder}">
+        <StackPanel Style="{StaticResource DarkStackPanel}">
+            <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Client Options: "/>
+            <Button Style="{StaticResource MenuButton}" Content="     Add Client"/>
+            <Button Style="{StaticResource MenuButton}" Content="     Remove Client"/>
+
+            <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Transaction Options: "/>
+            <Button Style="{StaticResource MenuButton}" Content="     Add Transaction"/>
+
+            <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Loan Options: "/>
+            <Button Style="{StaticResource MenuButton}" Content="     Add Loan"/>
+        </StackPanel>
+    </Border>
+    
+</UserControl>

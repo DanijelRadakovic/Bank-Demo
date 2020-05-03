@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.model
 {
@@ -12,13 +8,13 @@ namespace Bank.model
         public string Purpose { get; set; }
         public DateTime Date { get; set; }
         public double Amount { get; set; }
-        internal Account Payer { get; set; }
-        internal Account Receiver { get; set; }
+        internal Client Payer { get; set; }
+        internal Client Receiver { get; set; }
         internal Bank Bank { get; set; }
         public double CommissionFee { get; set; }
 
-        public Transaction(long id, string purpose, DateTime date, double amount, 
-            Account payer, Account receiver, Bank bank, double commissionFee)
+        public Transaction(long id, string purpose, DateTime date, double amount,
+            Client payer, Client receiver, Bank bank, double commissionFee)
         {
             Id = id;
             Purpose = purpose;

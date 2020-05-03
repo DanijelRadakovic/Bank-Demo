@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Bank.View.Model.LoanView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bank.View.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="220" d:DesignWidth="420">
+    <Border Style="{StaticResource DataItemBorder}">
+        <Grid Style="{StaticResource DarkGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Height="200" Source="{StaticResource ResourceKey=LoanImage}" Grid.Column="0"/>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Approval Date:"/>
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Deadline:"/>
+                <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Client:"/>
+                <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Client's Account:"/>
+                <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Base:"/>
+                <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Interest Rate:"/>
+                <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Number Of Installments:"/>
+                <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Installment Amount:"/>
+                <Label Grid.Row="8" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Paid Installments:"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding ApprovalDate, StringFormat=dd.MM.yyyy.}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Deadline, StringFormat=dd.MM.yyyy.}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Client}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding ClientAccount}"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Base, StringFormat={}{0:C}}"/>
+                <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding InterestRate, StringFormat={}{0:F2}%}"/>
+                <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding NumberOfInstallments}"/>
+                <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding InstallmentAmount, StringFormat={}{0:C}}"/>
+                <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding NumberOfPaidInstallments}"/>
+            </Grid>
+        </Grid>
+    </Border>
+    
+</UserControl>

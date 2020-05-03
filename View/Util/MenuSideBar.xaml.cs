@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Bank.View.Util
 {
     /// <summary>
-    /// Interaction logic for Transaction.xaml
+    /// Interaction logic for MenuSideBar.xaml
     /// </summary>
-    public partial class Transaction : UserControl
+    public partial class MenuSideBar : UserControl
     {
-        public Transaction()
+        public MenuSideBar()
         {
             InitializeComponent();
         }

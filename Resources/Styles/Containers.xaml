@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Bank">
+    <ResourceDictionary x:Key="Colors" Source="Colors.xaml"/>
+
+    <Style TargetType="{x:Type Border}" x:Key="MenuBorder">
+        <Setter Property="BorderThickness" Value="2,2,1,2"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+    </Style>
+
+    <Style TargetType="{x:Type Border}" x:Key="DataCollectionBorder">
+        <Setter Property="BorderThickness" Value="1,2,2,2"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+    </Style>
+
+    <Style TargetType="{x:Type Border}" x:Key="DataItemBorder">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+    </Style>
+    
+    <Style TargetType="{x:Type Grid}" x:Key="DarkGrid">
+        <Setter Property="Background" Value="{StaticResource DarkBrush}"/>
+    </Style>
+
+    <Style TargetType="{x:Type StackPanel}" x:Key="DarkStackPanel">
+        <Setter Property="Background" Value="{StaticResource DarkBrush}"/>
+    </Style>
+
+</ResourceDictionary>

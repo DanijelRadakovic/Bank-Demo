@@ -1,34 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.model
 {
     class Loan
     {
-        internal Client Client { get; set; }
-        public DateTime RepaymentEndDate { get; set; }
+        public long Id { get; set; }
+        public Client Client { get; set; }
         public DateTime ApprovalDate { get; set; }
+        public DateTime Deadline { get; set; }
         public double Base { get; set; }
         public double InterestRate { get; set; }
         public long NumberOfInstallments { get; set; }
         public double InstallmentAmount { get; set; }
         public long NumberOfPaidIntallments { get; set; }
 
-        public Loan(Client client, DateTime repaymentEndDate, DateTime approvalDate, 
-            double @base, double interestRate, long numberOfInstallments, 
-            double installmentAmount, long numberOfPaidIntallments)
+        public Bank Bank { get; set; }
+
+        public Loan(long id, Client client, DateTime approvalDate, DateTime deadline,
+            double @base, double interestRate, long numberOfInstallments,
+            double installmentAmount, long numberOfPaidIntallments, Bank bank)
         {
+            Id = id;
             Client = client;
-            RepaymentEndDate = repaymentEndDate;
             ApprovalDate = approvalDate;
+            Deadline = deadline;
             Base = @base;
             InterestRate = interestRate;
             NumberOfInstallments = numberOfInstallments;
             InstallmentAmount = installmentAmount;
             NumberOfPaidIntallments = numberOfPaidIntallments;
+            Bank = bank;
         }
     }
 }
