@@ -17,7 +17,6 @@ namespace Bank.View.Model
         private string _receiver;
         private string _receiverAccount;
         private double _amount;
-        private double _commissionFee;
         public TransactionView()
         {
             InitializeComponent();
@@ -110,19 +109,6 @@ namespace Bank.View.Model
                 if (_amount != value)
                 {
                     _amount = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public double CommisionFee
-        {
-            get { return _commissionFee; }
-            set
-            {
-                if (_commissionFee != value)
-                {
-                    _commissionFee = value;
                     OnPropertyChanged();
                 }
             }

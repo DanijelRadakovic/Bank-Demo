@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bank.model
+namespace Bank.Model
 {
     class Transaction
     {
@@ -10,11 +10,8 @@ namespace Bank.model
         public double Amount { get; set; }
         internal Client Payer { get; set; }
         internal Client Receiver { get; set; }
-        internal Bank Bank { get; set; }
-        public double CommissionFee { get; set; }
 
-        public Transaction(long id, string purpose, DateTime date, double amount,
-            Client payer, Client receiver, Bank bank, double commissionFee)
+        public Transaction(long id, string purpose, DateTime date, double amount, Client payer, Client receiver)
         {
             Id = id;
             Purpose = purpose;
@@ -22,8 +19,6 @@ namespace Bank.model
             Amount = amount;
             Payer = payer;
             Receiver = receiver;
-            Bank = bank;
-            CommissionFee = commissionFee;
         }
     }
 }

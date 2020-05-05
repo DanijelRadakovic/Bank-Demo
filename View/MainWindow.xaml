@@ -8,6 +8,7 @@
         xmlns:util="clr-namespace:Bank.View.Util"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
         Icon="{StaticResource BankImage}"
         Title="Bank" Height="450" Width="800">
     <Grid>
@@ -16,15 +17,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <util:MenuSideBar Grid.Row="0"/>
-        </Grid>
-
+        <util:MenuSideBar  Grid.Column="0"/>
         <model:DataView Grid.Column="1"/>
     </Grid>
 </Window>

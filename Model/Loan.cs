@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bank.model
+namespace Bank.Model
 {
     class Loan
     {
@@ -14,11 +14,9 @@ namespace Bank.model
         public double InstallmentAmount { get; set; }
         public long NumberOfPaidIntallments { get; set; }
 
-        public Bank Bank { get; set; }
-
         public Loan(long id, Client client, DateTime approvalDate, DateTime deadline,
             double @base, double interestRate, long numberOfInstallments,
-            double installmentAmount, long numberOfPaidIntallments, Bank bank)
+            double installmentAmount, long numberOfPaidIntallments)
         {
             Id = id;
             Client = client;
@@ -29,7 +27,6 @@ namespace Bank.model
             NumberOfInstallments = numberOfInstallments;
             InstallmentAmount = installmentAmount;
             NumberOfPaidIntallments = numberOfPaidIntallments;
-            Bank = bank;
         }
     }
 }

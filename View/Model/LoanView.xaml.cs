@@ -1,4 +1,4 @@
-﻿using Bank.model;
+﻿using Bank.Model;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bank.model
+namespace Bank.Model
 {
     class Client
     {
@@ -9,6 +9,11 @@ namespace Bank.model
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         internal Account Account { get; set; }
+
+        public Client(long id)
+        {
+            Id = id;
+        }
 
         public Client(long id, string firstName, string lastName, DateTime dateOfBirth, Account account)
         {

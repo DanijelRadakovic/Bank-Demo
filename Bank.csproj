@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Exception\NotUniqueAccountNumber.cs" />
     <Compile Include="View\Converter\AbstractConverter.cs" />
     <Compile Include="View\Converter\LoanConverter.cs" />
     <Compile Include="View\Converter\TransactionConverter.cs" />
@@ -142,12 +143,15 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\Data\accounts.csv" />
+    <None Include="Resources\Data\clients.csv" />
+    <None Include="Resources\Data\loans.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Data\" />
+    <None Include="Resources\Data\transactions.csv" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\loan.jpg" />

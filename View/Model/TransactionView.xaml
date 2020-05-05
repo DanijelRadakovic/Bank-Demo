@@ -29,7 +29,6 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Date:"/>
@@ -39,7 +38,6 @@
                 <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Receiver:"/>
                 <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Receiver's Account:"/>
                 <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Amount:"/>
-                <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource DarkBlueLabel}" Content="Commission Fee:"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Date, StringFormat=dd.MM.yyyy.}"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Purpose}"/>
@@ -48,7 +46,6 @@
                 <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Receiver}"/>
                 <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding ReceiverAccount}"/>
                 <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding Amount, StringFormat={}{0:C}}"/>
-                <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource DarkBlueDataTextBlock}" Text="{Binding CommisionFee, StringFormat={}{0:C}}"/>
             </Grid>
         </Grid>
     </Border>

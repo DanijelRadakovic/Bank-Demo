@@ -1,4 +1,4 @@
-﻿using Bank.model;
+﻿using Bank.Model;
 using Bank.View.Model;
 using System.Collections.Generic;
 
@@ -16,7 +16,6 @@ namespace Bank.View.Converter
                Receiver = transaction.Receiver.FirstName + " " + transaction.Receiver.LastName,
                ReceiverAccount = transaction.Receiver.Account.Number,
                Amount = transaction.Amount,
-               CommisionFee = transaction.CommissionFee
            };
 
 
