@@ -4,8 +4,9 @@
     <ResourceDictionary x:Key="Colors" Source="Colors.xaml"/>
 
     <Style TargetType="{x:Type Button}" x:Key="SuccessButton">
-        <Setter Property="Background" Value="{StaticResource DarkBlueBrush}"/>
+        <Setter Property="Background" Value="{StaticResource DarkGreenBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource DarkBrush}"/>
+        <Setter Property="FontSize" Value="15"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -22,6 +23,10 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessButton}" x:Key="CancelButton">
+        <Setter Property="Background" Value="{StaticResource DarkBlueBrush}"/>
+    </Style>
+    
     <Style TargetType="{x:Type Button}" x:Key="MenuButton">
         <Setter Property="Background" Value="{StaticResource DarkBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>

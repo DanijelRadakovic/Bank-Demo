@@ -9,11 +9,11 @@
         <Border Style="{StaticResource MenuBorder}">
         <StackPanel Style="{StaticResource DarkStackPanel}">
             <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Client Options: "/>
-            <Button Style="{StaticResource MenuButton}" Content="     Add Client"/>
+            <Button Style="{StaticResource MenuButton}" Click="AddClient_Click" Content="     Add Client"/>
             <Button Style="{StaticResource MenuButton}" Content="     Remove Client"/>
 
             <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Transaction Options: "/>
-            <Button Style="{StaticResource MenuButton}" Content="     Add Transaction"/>
+            <Button Style="{StaticResource MenuButton}" Click="AddTransaction_Click" Content="     Add Transaction"/>
 
             <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Loan Options: "/>
             <Button Style="{StaticResource MenuButton}" Content="     Add Loan"/>

@@ -7,6 +7,20 @@
         <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
     </Style>
 
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource DarkBlueLabel}" x:Key="DialogDarkBlueLabel">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,5,0,5"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" x:Key="DialogDarkBlueTextBox">
+        <Setter Property="Background" Value="{StaticResource DarkBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    
     <Style TargetType="{x:Type TextBlock}" x:Key="DarkBlueTextBlock">
         <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
     </Style>
