@@ -23,7 +23,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessButton}" x:Key="CancelButton">
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessButton}" x:Key="RegularButton">
         <Setter Property="Background" Value="{StaticResource DarkBlueBrush}"/>
     </Style>
     

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Bank.View.Model;
+using System.Windows;
 
 namespace Bank.View
 {
@@ -12,5 +13,7 @@ namespace Bank.View
             InitializeComponent();
             DataContext = this;
         }
+
+        public DataView GetDataView() => DataViewer;
     }
 }

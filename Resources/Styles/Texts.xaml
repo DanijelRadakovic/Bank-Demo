@@ -32,5 +32,5 @@
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DarkBlueTextBlock}" x:Key="DarkBlueDataTextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-    
+
 </ResourceDictionary>

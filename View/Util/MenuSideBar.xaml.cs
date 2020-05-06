@@ -26,5 +26,14 @@ namespace Bank.View.Util
             }
             .ShowDialog();
         }
+
+        private void AddLoan_Click(object sender, RoutedEventArgs e)
+        {
+            new AddLoanDialog
+            {
+                Owner = Application.Current.MainWindow
+            }
+            .ShowDialog();
+        }
     }
 }

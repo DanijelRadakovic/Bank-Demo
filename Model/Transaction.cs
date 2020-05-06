@@ -11,6 +11,14 @@ namespace Bank.Model
         internal Client Payer { get; set; }
         internal Client Receiver { get; set; }
 
+        public Transaction(string purpose, double amount, Client payer, Client receiver)
+        {
+            Purpose = purpose;
+            Amount = amount;
+            Payer = payer;
+            Receiver = receiver;
+        }
+
         public Transaction(long id, string purpose, DateTime date, double amount, Client payer, Client receiver)
         {
             Id = id;

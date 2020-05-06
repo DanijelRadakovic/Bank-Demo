@@ -69,11 +69,17 @@
     <Compile Include="View\Model\TransactionView.xaml.cs">
       <DependentUpon>TransactionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Util\AddLoanDialog.xaml.cs">
+      <DependentUpon>AddLoanDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Util\AddTransactionDialog.xaml.cs">
       <DependentUpon>AddTransactionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Util\MenuSideBar.xaml.cs">
       <DependentUpon>MenuSideBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Util\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Styles\Buttons.xaml">
       <SubType>Designer</SubType>
@@ -120,11 +126,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Util\AddLoanDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Util\AddTransactionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Util\MenuSideBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Util\MessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

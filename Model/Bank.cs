@@ -1,5 +1,4 @@
 ﻿using Bank.Exception;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,7 +70,7 @@ namespace Bank.Model
 
             ExecuteTransaction(transaction);
             Transaction newTransaction = Save(transaction);
-            
+
             _transactions.Add(newTransaction);
             return newTransaction;
         }
@@ -89,6 +88,7 @@ namespace Bank.Model
         public Loan Create(Loan loan)
         {
             loan.NumberOfPaidIntallments = 0;
+            loan.ApprovalDate = DateTime.Now;
 
             ApproveLoan(loan);
             Loan newLoan = Save(loan);
@@ -190,7 +190,7 @@ namespace Bank.Model
 
         private void SaveAccounts()
         {
-            WriteAllLinesToFile(ACCOUNT_FILE, 
+            WriteAllLinesToFile(ACCOUNT_FILE,
                 _accounts
                 .Select(ConvertEntityToCSVFormat)
                 .ToList());

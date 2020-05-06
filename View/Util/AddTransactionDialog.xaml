@@ -26,17 +26,17 @@
 
         <Label Grid.Column="0" Grid.Row="0" Style="{StaticResource DialogDarkBlueLabel}" Content="Purpose:"/>
         <Label Grid.Column="0" Grid.Row="1" Style="{StaticResource DialogDarkBlueLabel}" Content="Amount:"/>
-        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource DialogDarkBlueLabel}" Content="Payer:"/>
-        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource DialogDarkBlueLabel}" Content="Receiver:"/>
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource DialogDarkBlueLabel}" Content="Payer's Account:"/>
+        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource DialogDarkBlueLabel}" Content="Receiver's Account:"/>
 
-        <TextBox Grid.Column="1" Grid.Row="0"  Style="{StaticResource DialogDarkBlueTextBox}" MinWidth="300"/>
-        <TextBox Grid.Column="1" Grid.Row="1"  Style="{StaticResource DialogDarkBlueTextBox}" MinWidth="300"/>
-        <ComboBox Grid.Column="1" Grid.Row="2" Style="{StaticResource DarkComboBox}" MinWidth="300" ItemsSource="{Binding Payers}"/>
-        <ComboBox Grid.Column="1" Grid.Row="3" Style="{StaticResource DarkComboBox}" MinWidth="300" ItemsSource="{Binding Receivers}"/>
+        <TextBox  Grid.Column="1" Grid.Row="0"  Style="{StaticResource DialogDarkBlueTextBox}" MinWidth="300" Text="{Binding Purpose}"/>
+        <TextBox  Grid.Column="1" Grid.Row="1"  Style="{StaticResource DialogDarkBlueTextBox}" MinWidth="300" Text="{Binding Amount}" PreviewTextInput="MaskDecimaInput" DataObject.Pasting="MaskDecimalPaste"/>
+        <ComboBox Name="PayerAccount" Grid.Column="1" Grid.Row="2" Style="{StaticResource DarkComboBox}" MinWidth="300"  ItemsSource="{Binding PayerAccounts}" SelectionChanged="PayerAccount_SelectionChanged"/>
+        <ComboBox Name="ReceiverAccount" Grid.Column="1" Grid.Row="3" Style="{StaticResource DarkComboBox}" MinWidth="300" ItemsSource="{Binding ReceiverAccounts}"/>
 
         <WrapPanel Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,5,5">
             <Button Style="{StaticResource SuccessButton}" IsDefault="True" Name="TransferButton" Click="TransferButton_Click" MinWidth="60" Margin="0,0,10,0" Content="Transfer"/>
-            <Button Style="{StaticResource CancelButton}" IsCancel="True" MinWidth="60" Content="Cancel"/>
+            <Button Style="{StaticResource RegularButton}" IsCancel="True" MinWidth="60" Content="Cancel"/>
         </WrapPanel>
     </Grid>
 </Window>

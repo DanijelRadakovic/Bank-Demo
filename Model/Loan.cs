@@ -14,6 +14,14 @@ namespace Bank.Model
         public double InstallmentAmount { get; set; }
         public long NumberOfPaidIntallments { get; set; }
 
+        public Loan(Client client, DateTime deadline, double @base, double interestRate)
+        {
+            Client = client;
+            Deadline = deadline;
+            Base = @base;
+            InterestRate = interestRate;
+        }
+
         public Loan(long id, Client client, DateTime approvalDate, DateTime deadline,
             double @base, double interestRate, long numberOfInstallments,
             double installmentAmount, long numberOfPaidIntallments)
