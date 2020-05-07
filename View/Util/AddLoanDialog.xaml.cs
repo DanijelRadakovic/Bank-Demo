@@ -1,4 +1,5 @@
-﻿using Bank.Model;
+﻿using Bank.Exception;
+using Bank.Model;
 using Bank.View.Converter;
 using Bank.View.Model;
 using System;
@@ -21,7 +22,11 @@ namespace Bank.View.Util
     {
         private const string ERROR_MESSAGE = "All fields are mandatory, please fill them!";
         private const string DATE_FORMAT_ERROR_MESSAGE = "Invalid date format. Valid format is: 15.05.2020. !";
+        private const string INVALID_DEADLINE_ERROR_MESSAGE = "Invalid deadline value. Valid date starts from next month!";
+
         private static readonly Regex _decimalRegex = new Regex("[^0-9.-]+");
+
+        private DateTime _deadlineLowerLimit;
 
         private Bank.Model.Bank _bank;
         private DataView _dataView;
@@ -36,6 +41,8 @@ namespace Bank.View.Util
         {
             InitializeComponent();
             DataContext = this;
+
+            _deadlineLowerLimit = DateTime.Now.AddMonths(1);
             _bank = Bank.Model.Bank.GetInstance();
             _dataView = (Application.Current.MainWindow as MainWindow).GetDataView();
 
@@ -83,48 +90,73 @@ namespace Bank.View.Util
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-
-            if (IsValidInputFields())
+            if (!IsValidDeadlineFormatDate())
             {
-                var loan = CreateLoan();
-                UpdateDataView(loan);
-                CloseDialog();
+                ShowError(DATE_FORMAT_ERROR_MESSAGE);
+            }
+            else if (IsDeadlineLowerThanLowerLimit())
+            {
+                ShowError(INVALID_DEADLINE_ERROR_MESSAGE);
+            }
+            else if (!IsClientSelected())
+            {
+                ShowError(ERROR_MESSAGE);
             }
             else
             {
-                ShowError(ERROR_MESSAGE);
+                try
+                {
+                    UpdateDataView(CreateLoan());
+                    CloseDialog();
+                }
+                catch (InvalidLoanDeadline error)
+                {
+                    ShowError(error.Message);
+                }
+
             }
         }
 
         private Loan CreateLoan()
         {
-            var loan = new Loan(
-                FindClientFromAccountNumber(Client.SelectedItem.ToString()),
-                _deadline,
-                _base,
-                _interestRate);
-            return _bank.Create(loan);
+            try
+            {
+                return _bank.Create(new Loan(
+                      FindClientFromAccountNumber(Client.SelectedItem.ToString()),
+                      _deadline,
+                      _base,
+                      _interestRate));
+            }
+            catch (InvalidLoanDeadline)
+            {
+                throw;
+            }
         }
+
 
         private void UpdateDataView(Loan loan) => _dataView.Data.Add(LoanConverter.ConvertLoanToLoanView(loan));
 
         private void CloseDialog() => Close();
 
-        private bool IsValidInputFields() => IsValidDate() && IsClientSelected();
 
         private bool IsClientSelected() => Client.SelectedItem != null;
 
-        private bool IsValidDate()
+        private bool IsValidDeadlineFormatDate()
         {
-            DateTime deadline;
-            if (DateTime.TryParse(Deadline.Text, out deadline))
+            if (!DateTime.TryParse(Deadline.Text, out DateTime deadline))
+            {
+                return false;
+            }
+            else
             {
                 _deadline = deadline;
                 return true;
             }
-            ShowError(DATE_FORMAT_ERROR_MESSAGE);
-            return false;
+
         }
+
+        private bool IsDeadlineLowerThanLowerLimit() => _deadline < _deadlineLowerLimit;
+
 
         private void ShowError(string s) => new MessageDialog(s, this).ShowDialog();
 

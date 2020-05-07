@@ -64,10 +64,8 @@ namespace Bank.Model
 
         public Transaction Create(Transaction transaction)
         {
-            transaction.Date = DateTime.Now;
-            transaction.Payer = FindClientById(transaction.Payer.Id);
-            transaction.Receiver = FindClientById(transaction.Receiver.Id);
 
+            SetMissingValues(transaction);
             ExecuteTransaction(transaction);
             Transaction newTransaction = Save(transaction);
 
@@ -87,14 +85,22 @@ namespace Bank.Model
 
         public Loan Create(Loan loan)
         {
-            loan.NumberOfPaidIntallments = 0;
-            loan.ApprovalDate = DateTime.Now;
+            SetMissingValues(loan);
+            if(IsDeadlineAfterApprovalDate(loan))
+            {
+                SetNumberOfInstallments(loan);
+                SetInstallmentAmount(loan);
+                ApproveLoan(loan);
+                Loan newLoan = Save(loan);
 
-            ApproveLoan(loan);
-            Loan newLoan = Save(loan);
-
-            _loans.Add(newLoan);
-            return newLoan;
+                _loans.Add(newLoan);
+                return newLoan;
+            }
+            else
+            {
+                throw new InvalidLoanDeadline($"Deadline: {loan.Deadline} is before approval date: {loan.ApprovalDate}");
+            }
+           
         }
 
         public void Update(Loan loan)
@@ -112,17 +118,16 @@ namespace Bank.Model
             Client newClient;
             string accountNumber = client.Account.Number;
 
-            try
+            if (IsAccountNumberUnique(accountNumber))
             {
-                CheckIsAccountNumberUnique(accountNumber);
                 newClient = Save(client);
                 _clients.Add(newClient);
                 _accounts.Add(newClient.Account);
                 return newClient;
             }
-            catch (NotUniqueAccountNumber)
+            else
             {
-                throw;
+                throw new NotUniqueAccountNumber($"Account number {accountNumber} already exists");
             }
         }
 
@@ -136,24 +141,52 @@ namespace Bank.Model
 
         }
 
+        private void SetMissingValues(Transaction transaction)
+        {
+            transaction.Date = DateTime.Now;
+            transaction.Payer = FindClientById(transaction.Payer.Id);
+            transaction.Receiver = FindClientById(transaction.Receiver.Id);
+        }
+
         private void ExecuteTransaction(Transaction transaction)
         {
             transaction.Payer.Account.Balance -= transaction.Amount;
             transaction.Receiver.Account.Balance += transaction.Amount;
         }
 
-        private void ApproveLoan(Loan loan)
+        private void SetMissingValues(Loan loan)
         {
-            loan.Client.Account.Balance += loan.Base;
+            loan.NumberOfPaidIntallments = 0;
+            loan.ApprovalDate = DateTime.Now;
         }
 
-        private void CheckIsAccountNumberUnique(string accountNumber)
+        private bool IsDeadlineAfterApprovalDate(Loan loan) => loan.Deadline > loan.ApprovalDate;
+
+        private void SetNumberOfInstallments(Loan loan)
+            => loan.NumberOfInstallments = CalculateNumberOfInstallments(loan);
+
+        private long CalculateNumberOfInstallments(Loan loan) =>
+            ((loan.Deadline.Year - loan.ApprovalDate.Year) * 12) + loan.Deadline.Month - loan.ApprovalDate.Month;
+
+        private void SetInstallmentAmount(Loan loan) =>
+            loan.InstallmentAmount = CalculateInstallmentAmount(loan);
+
+        private double CalculateInstallmentAmount(Loan loan)
+            => (loan.Base * (1 + loan.InterestRate / 100)) / loan.NumberOfInstallments;
+
+
+        private void ApproveLoan(Loan loan) => loan.Client.Account.Balance += loan.Base;
+
+
+        private bool IsAccountNumberUnique(string accountNumber)
         {
             foreach (var client in _clients)
             {
                 if (client.Account.Number.Equals(accountNumber))
-                    throw new NotUniqueAccountNumber($"Account number {accountNumber} already exists");
+                    return false;
+
             }
+            return true;
         }
 
 
