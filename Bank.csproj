@@ -58,6 +58,9 @@
     <Compile Include="Exception\EntityNotFoundException.cs" />
     <Compile Include="Exception\InvalidDateException.cs" />
     <Compile Include="Exception\NotUniqueException.cs" />
+    <Compile Include="Exception\ValidationException.cs" />
+    <Compile Include="Model\Util\AccountNumber.cs" />
+    <Compile Include="Model\Util\Amount.cs" />
     <Compile Include="View\Converter\AbstractConverter.cs" />
     <Compile Include="View\Converter\ClientConverter.cs" />
     <Compile Include="View\Converter\LoanConverter.cs" />

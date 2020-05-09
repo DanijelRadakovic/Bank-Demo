@@ -1,4 +1,5 @@
 ﻿using Bank.Model;
+using Bank.Model.Util;
 using Bank.View.Converter;
 using Bank.View.Model;
 using System.Collections.Generic;
@@ -74,7 +75,7 @@ namespace Bank.View.Util
 
         private IList<string> FindAccountNumbersFromClients()
             => _clients
-            .Select(client => client.Account.Number)
+            .Select(client => client.Account.Number.Value)
             .ToList();
 
         private Client FindClientFromAccountNumber(string accountNumber)
@@ -101,7 +102,7 @@ namespace Bank.View.Util
         {
             var transaction = new Transaction(
                 _purpose,
-                _amount,
+                new Amount(_amount),
                 FindClientFromAccountNumber(PayerAccount.SelectedItem.ToString()),
                 FindClientFromAccountNumber(ReceiverAccount.SelectedItem.ToString()));
             return _bank.Create(transaction);

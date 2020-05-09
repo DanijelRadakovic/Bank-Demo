@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bank.Model.Util;
+using System;
 
 namespace Bank.Model
 {
@@ -7,11 +8,11 @@ namespace Bank.Model
         public long Id { get; set; }
         public string Purpose { get; set; }
         public DateTime Date { get; set; }
-        public double Amount { get; set; }
-        internal Client Payer { get; set; }
-        internal Client Receiver { get; set; }
+        public Amount Amount { get; set; }
+        public Client Payer { get; set; }
+        public Client Receiver { get; set; }
 
-        public Transaction(string purpose, double amount, Client payer, Client receiver)
+        public Transaction(string purpose, Amount amount, Client payer, Client receiver)
         {
             Purpose = purpose;
             Amount = amount;
@@ -19,7 +20,7 @@ namespace Bank.Model
             Receiver = receiver;
         }
 
-        public Transaction(long id, string purpose, DateTime date, double amount, Client payer, Client receiver)
+        public Transaction(long id, string purpose, DateTime date, Amount amount, Client payer, Client receiver)
         {
             Id = id;
             Purpose = purpose;

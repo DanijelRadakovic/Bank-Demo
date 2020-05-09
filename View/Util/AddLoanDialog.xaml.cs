@@ -80,7 +80,7 @@ namespace Bank.View.Util
 
         private IList<string> FindAccountNumbersFromClients()
             => _clients
-            .Select(client => client.Account.Number)
+            .Select(client => client.Account.Number.Value)
             .ToList();
 
         private Client FindClientFromAccountNumber(string accountNumber)

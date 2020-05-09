@@ -14,7 +14,7 @@ namespace Bank.View.Converter
                 ApprovalDate = loan.ApprovalDate,
                 Deadline = loan.Deadline,
                 Client = loan.Client.FirstName + " " + loan.Client.LastName,
-                ClientAccount = loan.Client.Account.Number,
+                ClientAccount = loan.Client.Account.Number.Value,
                 Base = loan.Base,
                 InterestRate = loan.InterestRate,
                 NumberOfInstallments = loan.NumberOfInstallments,

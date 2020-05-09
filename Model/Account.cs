@@ -1,9 +1,11 @@
-﻿namespace Bank.Model
+﻿using Bank.Model.Util;
+
+namespace Bank.Model
 {
     class Account
     {
         public long Id { get; set; }
-        public string Number { get; set; }
+        public AccountNumber Number { get; set; }
         public double Balance { get; set; }
 
 
@@ -12,7 +14,7 @@
             Id = id;
         }
 
-        public Account(long id, string number, double balance)
+        public Account(long id, AccountNumber number, double balance)
         {
             Id = id;
             Number = number;

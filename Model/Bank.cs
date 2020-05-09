@@ -1,4 +1,5 @@
 ﻿using Bank.Exception;
+using Bank.Model.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -152,7 +153,7 @@ namespace Bank.Model
         public Client Create(Client client)
         {
             Client newClient;
-            string accountNumber = client.Account.Number;
+            string accountNumber = client.Account.Number.Value;
 
             if (IsAccountNumberUnique(accountNumber))
             {
@@ -204,8 +205,8 @@ namespace Bank.Model
 
         private void ExecuteTransaction(Transaction transaction)
         {
-            transaction.Payer.Account.Balance -= transaction.Amount;
-            transaction.Receiver.Account.Balance += transaction.Amount;
+            transaction.Payer.Account.Balance -= transaction.Amount.Value;
+            transaction.Receiver.Account.Balance += transaction.Amount.Value;
         }
 
         private void SetMissingValues(Loan loan)
@@ -417,7 +418,7 @@ namespace Bank.Model
                 long.Parse(tokens[0]),
                 tokens[1],
                 DateTime.Parse(tokens[2]),
-                double.Parse(tokens[3]),
+                new Amount(double.Parse(tokens[3])),
                 new Client(long.Parse(tokens[4])),
                 new Client(long.Parse(tokens[5])));
         }
@@ -476,7 +477,7 @@ namespace Bank.Model
         private Account ConvertCSVFormatToAccount(string acountCSVFormat)
         {
             string[] tokens = acountCSVFormat.Split(CSV_DELIMITER.ToCharArray());
-            return new Account(long.Parse(tokens[0]), tokens[1], double.Parse(tokens[2]));
+            return new Account(long.Parse(tokens[0]), new Util.AccountNumber(tokens[1]), double.Parse(tokens[2]));
         }
 
         private void AppendLineToFile(string path, string line)

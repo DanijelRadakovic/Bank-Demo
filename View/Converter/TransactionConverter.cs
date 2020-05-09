@@ -12,10 +12,10 @@ namespace Bank.View.Converter
                Date = transaction.Date,
                Purpose = transaction.Purpose,
                Payer = transaction.Payer.FirstName + " " + transaction.Payer.LastName,
-               PayerAccount = transaction.Payer.Account.Number,
+               PayerAccount = transaction.Payer.Account.Number.Value,
                Receiver = transaction.Receiver.FirstName + " " + transaction.Receiver.LastName,
-               ReceiverAccount = transaction.Receiver.Account.Number,
-               Amount = transaction.Amount,
+               ReceiverAccount = transaction.Receiver.Account.Number.Value,
+               Amount = transaction.Amount.Value,
            };
 
 
