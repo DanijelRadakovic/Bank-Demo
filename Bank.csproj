@@ -55,8 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Exception\InvalidLoanDeadline.cs" />
-    <Compile Include="Exception\NotUniqueAccountNumber.cs" />
+    <Compile Include="Exception\EntityNotFoundException.cs" />
+    <Compile Include="Exception\InvalidDateException.cs" />
+    <Compile Include="Exception\NotUniqueException.cs" />
     <Compile Include="View\Converter\AbstractConverter.cs" />
     <Compile Include="View\Converter\ClientConverter.cs" />
     <Compile Include="View\Converter\LoanConverter.cs" />

@@ -75,18 +75,36 @@ namespace Bank.Model
 
         public void Update(Transaction transaction)
         {
-
+            try
+            {
+                _transactions[_transactions.FindIndex(tr => tr.Id == transaction.Id)] = transaction;
+                SaveTransactions();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new EntityNotFoundException($"Transaction with id: {transaction.Id} can not be found!");
+            }
         }
 
         public void Delete(Transaction transaction)
         {
+            var transactionToRemove = _transactions.SingleOrDefault(tr => tr.Id == transaction.Id);
+            if (transactionToRemove != null)
+            {
+                _transactions.Remove(transactionToRemove);
+                SaveTransactions();
+            }
+            else
+            {
+                throw new EntityNotFoundException($"Transaction with id: {transaction.Id} can not be found!");
+            }
 
         }
 
         public Loan Create(Loan loan)
         {
             SetMissingValues(loan);
-            if(IsDeadlineAfterApprovalDate(loan))
+            if (IsDeadlineAfterApprovalDate(loan))
             {
                 SetNumberOfInstallments(loan);
                 SetInstallmentAmount(loan);
@@ -98,19 +116,37 @@ namespace Bank.Model
             }
             else
             {
-                throw new InvalidLoanDeadline($"Deadline: {loan.Deadline} is before approval date: {loan.ApprovalDate}");
+                throw new InvalidDateException($"Deadline: {loan.Deadline} is before approval date: {loan.ApprovalDate}");
             }
-           
+
         }
 
         public void Update(Loan loan)
         {
+            try
+            {
+                _loans[_loans.FindIndex(ln => ln.Id == loan.Id)] = loan;
+                SaveLoans();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new EntityNotFoundException($"Loan with id: {loan.Id} can not be found!");
+            }
 
         }
 
         public void Delete(Loan loan)
         {
-
+            var loanToRemove = _loans.SingleOrDefault(ln => ln.Id == loan.Id);
+            if (loanToRemove != null)
+            {
+                _loans.Remove(loanToRemove);
+                SaveLoans();
+            }
+            else
+            {
+                throw new EntityNotFoundException($"Loan with id: {loan.Id} can not be found!");
+            }
         }
 
         public Client Create(Client client)
@@ -127,18 +163,36 @@ namespace Bank.Model
             }
             else
             {
-                throw new NotUniqueAccountNumber($"Account number {accountNumber} already exists");
+                throw new NotUniqueException($"Account number {accountNumber} already exists");
             }
         }
 
         public void Update(Client client)
         {
+            try
+            {
+                _clients[_clients.FindIndex(clt => clt.Id == client.Id)] = client;
+                SaveClients();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new EntityNotFoundException($"Client with id: {client.Id} can not be found!");
+            }
 
         }
 
         public void Delete(Client client)
         {
-
+            var clientToRemove = _clients.SingleOrDefault(cnt => cnt.Id == client.Id);
+            if (clientToRemove != null)
+            {
+                _clients.Remove(clientToRemove);
+                SaveClients();
+            }
+            else
+            {
+                throw new EntityNotFoundException($"Client with id: {client.Id} can not be found!");
+            }
         }
 
         private void SetMissingValues(Transaction transaction)
@@ -221,13 +275,34 @@ namespace Bank.Model
             return account;
         }
 
-        private void SaveAccounts()
+        private void SaveTransactions() =>
+         WriteAllLinesToFile(CLIENT_FILE,
+             _transactions
+             .Select(ConvertEntityToCSVFormat)
+             .ToList());
+
+        private void SaveLoans() =>
+           WriteAllLinesToFile(CLIENT_FILE,
+               _loans
+               .Select(ConvertEntityToCSVFormat)
+               .ToList());
+
+        private void SaveClients()
         {
+            SaveAccounts();
+            WriteAllLinesToFile(CLIENT_FILE,
+                _clients
+                .Select(ConvertEntityToCSVFormat)
+                .ToList());
+        }
+            
+
+        private void SaveAccounts() =>
             WriteAllLinesToFile(ACCOUNT_FILE,
                 _accounts
                 .Select(ConvertEntityToCSVFormat)
                 .ToList());
-        }
+
 
         private long GenerateClientId() => _clientNextId++;
 

@@ -13,11 +13,6 @@ namespace Bank.View.Util
             InitializeComponent();
         }
 
-        private void AddClient_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void AddTransaction_Click(object sender, RoutedEventArgs e)
         {
             new AddTransactionDialog

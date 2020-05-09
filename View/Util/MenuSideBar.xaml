@@ -8,10 +8,6 @@
              d:DesignHeight="300" d:DesignWidth="245" MinWidth="245">
         <Border Style="{StaticResource MenuBorder}">
         <StackPanel Style="{StaticResource DarkStackPanel}">
-            <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Client Options: "/>
-            <Button Style="{StaticResource MenuButton}" Click="AddClient_Click" Content="     Add Client"/>
-            <Button Style="{StaticResource MenuButton}" Content="     Remove Client"/>
-
             <TextBlock Style="{StaticResource DarkBlueMenuTextBlock}" Text=" Transaction Options: "/>
             <Button Style="{StaticResource MenuButton}" Click="AddTransaction_Click" Content="     Add Transaction"/>
 

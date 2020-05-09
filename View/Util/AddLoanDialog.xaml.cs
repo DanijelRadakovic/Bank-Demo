@@ -109,7 +109,7 @@ namespace Bank.View.Util
                     UpdateDataView(CreateLoan());
                     CloseDialog();
                 }
-                catch (InvalidLoanDeadline error)
+                catch (InvalidDateException error)
                 {
                     ShowError(error.Message);
                 }
@@ -127,7 +127,7 @@ namespace Bank.View.Util
                       _base,
                       _interestRate));
             }
-            catch (InvalidLoanDeadline)
+            catch (InvalidDateException)
             {
                 throw;
             }
