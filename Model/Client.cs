@@ -8,7 +8,7 @@ namespace Bank.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
-        internal Account Account { get; set; }
+        public Account Account { get; set; }
 
         public Client(long id)
         {
