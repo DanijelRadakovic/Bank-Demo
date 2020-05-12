@@ -11,9 +11,9 @@ namespace Bank.Repository
     {
         private const string NOT_FOUND_ERROR = "Client with {0}:{1} can not be found!";
 
-        private string _path;
-        private string _delimiter;
-        private string _datetimeFormat;
+        private readonly string _path;
+        private readonly string _delimiter;
+        private readonly string _datetimeFormat;
         private long _clientNextId;
 
         public ClientRepository(string path, string delimiter, string datetimeFormat)
