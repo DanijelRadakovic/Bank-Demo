@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Bank.Model.Util
 {
-    class AccountNumber
+    public class AccountNumber
     {
         private readonly Regex _regex = new Regex(@"\d{3}-\d{11}-\d{2}");
         private const string ERROR_MESSAGE = "Invalid account number value. Acceptable format is 745-56324786314-35";

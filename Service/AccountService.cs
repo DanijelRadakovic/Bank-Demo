@@ -4,9 +4,14 @@ using System.Collections.Generic;
 
 namespace Bank.Service
 {
-    class AccountService
+    public class AccountService
     {
         private readonly AccountRepository repository;
+
+        public AccountService(AccountRepository repository)
+        {
+            this.repository = repository;
+        }
 
         public IEnumerable<Account> GetAll() => repository.GettAll();
 

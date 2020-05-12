@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\AccountController.cs" />
+    <Compile Include="Controller\ClientController.cs" />
+    <Compile Include="Controller\LoanController.cs" />
+    <Compile Include="Controller\TransactionController.cs" />
     <Compile Include="Exception\EntityNotFoundException.cs" />
     <Compile Include="Exception\InvalidDateException.cs" />
     <Compile Include="Exception\NotUniqueException.cs" />
@@ -197,8 +201,6 @@
   <ItemGroup>
     <Resource Include="Resources\Images\bank.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

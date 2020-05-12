@@ -5,10 +5,16 @@ using System.Linq;
 
 namespace Bank.Service
 {
-    class ClientService
+    public class ClientService
     {
         private readonly ClientRepository clientRepository;
         private readonly AccountService accountService;
+
+        public ClientService(ClientRepository clientRepository, AccountService accountService)
+        {
+            this.clientRepository = clientRepository;
+            this.accountService = accountService;
+        }
 
         public IEnumerable<Client> GetAll()
         {

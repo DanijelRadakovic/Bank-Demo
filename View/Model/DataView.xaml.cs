@@ -11,6 +11,7 @@ namespace Bank.View.Model
     public partial class DataView : UserControl
     {
         private readonly Bank.Model.Bank bank;
+
         public ObservableCollection<UserControl> Data { get; set; }
         public DataView()
         {

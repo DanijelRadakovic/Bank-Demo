@@ -1,6 +1,6 @@
 ﻿namespace Bank.Repository
 {
-    class TransactionRepository
+    public class TransactionRepository
     {
     }
 }

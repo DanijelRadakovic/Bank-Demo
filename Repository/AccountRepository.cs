@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Bank.Repository
 {
-    class AccountRepository
+    public class AccountRepository
     {
         private const string NOT_FOUND_ERROR = "Account with {0}:{1} can not be found!";
         private const string NOT_UNIQUE_ERROR = "Account number {1} is not unique!";

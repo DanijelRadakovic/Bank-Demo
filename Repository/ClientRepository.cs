@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Bank.Repository
 {
-    class ClientRepository
+    public class ClientRepository
     {
         private const string NOT_FOUND_ERROR = "Client with {0}:{1} can not be found!";
 

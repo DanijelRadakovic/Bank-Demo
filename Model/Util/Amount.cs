@@ -2,7 +2,7 @@
 
 namespace Bank.Model.Util
 {
-    class Amount
+    public class Amount
     {
         private const double MINIMAL_AMOUNT = 100;
         private static readonly string ERROR_MESSAGE = $"Minimal valid amount is:{MINIMAL_AMOUNT}";
