@@ -1,4 +1,5 @@
 ﻿using Bank.Exception;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Bank.Model.Util
@@ -35,5 +36,16 @@ namespace Bank.Model.Util
 
         private void ThrowException()
             => throw new ValidationException(ERROR_MESSAGE);
+
+        public override bool Equals(object obj)
+            => obj is AccountNumber number &&
+                   string.Equals(_value, number._value);
+        
+        public override int GetHashCode()
+            => -1939223833 + EqualityComparer<string>.Default.GetHashCode(_value);
+
+        public override string ToString()
+            => _value;
+        
     }
 }
