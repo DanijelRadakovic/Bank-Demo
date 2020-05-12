@@ -61,6 +61,10 @@
     <Compile Include="Exception\ValidationException.cs" />
     <Compile Include="Model\Util\AccountNumber.cs" />
     <Compile Include="Model\Util\Amount.cs" />
+    <Compile Include="Repository\AccountRepository.cs" />
+    <Compile Include="Repository\ClientRepository.cs" />
+    <Compile Include="Repository\LoanRepository.cs" />
+    <Compile Include="Repository\TransactionRepository.cs" />
     <Compile Include="View\Converter\AbstractConverter.cs" />
     <Compile Include="View\Converter\ClientConverter.cs" />
     <Compile Include="View\Converter\LoanConverter.cs" />
@@ -188,6 +192,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\bank.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
