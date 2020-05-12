@@ -9,7 +9,7 @@ namespace Bank.Service
 {
     public class LoanService
     {
-        private const string INVALID_DATE_ERROR = "Deadline: {loan.Deadline} is before approval date: {loan.ApprovalDate}";
+        private const string INVALID_DATE_ERROR = "Deadline: {0} is before approval date: {1}!";
 
         private readonly LoanRepository loanRepository;
         private readonly ClientService clientService;
@@ -37,7 +37,7 @@ namespace Bank.Service
 
         public Loan Create(Loan loan)
         {
-            Client client;
+            Client client = loan.Client;
             Loan newLoan;
 
             SetMissingValues(loan);
@@ -47,7 +47,7 @@ namespace Bank.Service
                 SetInstallmentAmount(loan);
                 ApproveLoan(loan);
 
-                client = clientService.Create(loan.Client);
+                clientService.Update(client);
                 newLoan = loanRepository.Create(loan);
                 newLoan.Client = client;
 

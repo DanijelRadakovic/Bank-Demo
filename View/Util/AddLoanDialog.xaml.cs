@@ -1,5 +1,7 @@
-﻿using Bank.Exception;
+﻿using Bank.Controller;
+using Bank.Exception;
 using Bank.Model;
+using Bank.Model.Util;
 using Bank.View.Converter;
 using Bank.View.Model;
 using System;
@@ -26,11 +28,13 @@ namespace Bank.View.Util
 
         private static readonly Regex _decimalRegex = new Regex("[^0-9.-]+");
 
-        private DateTime _deadlineLowerLimit;
+        private readonly DateTime _deadlineLowerLimit;
 
-        private Bank.Model.Bank _bank;
-        private DataView _dataView;
-        private IList<Client> _clients;
+        private readonly LoanController _loanController;
+        private readonly ClientController _clientController;
+
+        private readonly DataView _dataView;
+        private readonly IList<Client> _clients;
         private double _base;
         private double _interestRate;
         private DateTime _deadline;
@@ -43,10 +47,13 @@ namespace Bank.View.Util
             DataContext = this;
 
             _deadlineLowerLimit = DateTime.Now.AddMonths(1);
-            _bank = Bank.Model.Bank.GetInstance();
-            _dataView = (Application.Current.MainWindow as MainWindow).GetDataView();
 
-            _clients = _bank.Clients;
+            var app = Application.Current as App;
+            _loanController = app.LoanController;
+            _clientController = app.ClientController;
+
+            _dataView = (Application.Current.MainWindow as MainWindow).GetDataView();
+            _clients = _clientController.GetAll().ToList();
             Accounts = new ObservableCollection<string>(FindAccountNumbersFromClients());
 
             Deadline.Text = DateTime.Now.AddYears(1).ToString("dd.MM.yyyy.");
@@ -85,7 +92,7 @@ namespace Bank.View.Util
 
         private Client FindClientFromAccountNumber(string accountNumber)
             => _clients
-            .Where(client => client.Account.Number.Equals(accountNumber))
+            .Where(client => client.Account.Number.Equals(new AccountNumber(accountNumber)))
             .First();
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -121,7 +128,7 @@ namespace Bank.View.Util
         {
             try
             {
-                return _bank.Create(new Loan(
+                return _loanController.Create(new Loan(
                       FindClientFromAccountNumber(Client.SelectedItem.ToString()),
                       _deadline,
                       _base,

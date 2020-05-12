@@ -11,7 +11,7 @@ namespace Bank.Repository
     public class AccountRepository
     {
         private const string NOT_FOUND_ERROR = "Account with {0}:{1} can not be found!";
-        private const string NOT_UNIQUE_ERROR = "Account number {1} is not unique!";
+        private const string NOT_UNIQUE_ERROR = "Account number {0} is not unique!";
 
         private string _path;
         private string _delimiter;
