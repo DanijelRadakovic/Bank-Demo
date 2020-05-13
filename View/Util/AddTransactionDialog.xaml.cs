@@ -1,4 +1,5 @@
-﻿using Bank.Model;
+﻿using Bank.Controller;
+using Bank.Model;
 using Bank.Model.Util;
 using Bank.View.Converter;
 using Bank.View.Model;
@@ -22,8 +23,9 @@ namespace Bank.View.Util
         private const string ERROR_MESSAGE = "All fields are mandatory, please fill them!";
         private static readonly Regex _decimalRegex = new Regex("[^0-9.-]+");
 
+        private readonly TransactionController _transactionController;
+        private readonly ClientController _clientController;
 
-        private readonly Bank.Model.Bank _bank;
         private readonly DataView _dataView;
         private readonly IList<Client> _clients;
         private string _purpose;
@@ -39,8 +41,11 @@ namespace Bank.View.Util
             InitializeComponent();
             DataContext = this;
 
-            _bank = Bank.Model.Bank.GetInstance();
-            _clients = _bank.Clients;
+            var app = Application.Current as App;
+            _transactionController = app.TransactionController;
+            _clientController = app.ClientController;
+
+            _clients = _clientController.GetAll().ToList();
             _dataView = (Application.Current.MainWindow as MainWindow).GetDataView();
 
             PayerAccounts = new ObservableCollection<string>(FindAccountNumbersFromClients());
@@ -80,7 +85,7 @@ namespace Bank.View.Util
 
         private Client FindClientFromAccountNumber(string accountNumber)
             => _clients
-            .Where(client => client.Account.Number.Equals(accountNumber))
+            .Where(client => client.Account.Number.Equals(new AccountNumber(accountNumber)))
             .First();
 
 
@@ -105,7 +110,7 @@ namespace Bank.View.Util
                 new Amount(_amount),
                 FindClientFromAccountNumber(PayerAccount.SelectedItem.ToString()),
                 FindClientFromAccountNumber(ReceiverAccount.SelectedItem.ToString()));
-            return _bank.Create(transaction);
+            return _transactionController.Create(transaction);
         }
 
         private void UpdateDataView(Transaction transaction) 

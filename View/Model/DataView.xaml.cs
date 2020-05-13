@@ -12,9 +12,8 @@ namespace Bank.View.Model
     /// </summary>
     public partial class DataView : UserControl
     {
-        private readonly Bank.Model.Bank bank;
-
         private readonly LoanController _loanController;
+        private readonly TransactionController _transactionController;
 
         public ObservableCollection<UserControl> Data { get; set; }
         public DataView()
@@ -24,11 +23,13 @@ namespace Bank.View.Model
 
             var app = Application.Current as App;
 
-            bank = Bank.Model.Bank.GetInstance();
             _loanController = app.LoanController;
+            _transactionController = app.TransactionController;
 
             Data = new ObservableCollection<UserControl>(TransactionConverter
-                .ConvertTransactionListToTransactionViewList(bank.Transactions));
+                .ConvertTransactionListToTransactionViewList(_transactionController
+                    .GetAll()
+                    .ToList()));
 
             LoanConverter
                 .ConvertLoanListToLoanViewList(_loanController
