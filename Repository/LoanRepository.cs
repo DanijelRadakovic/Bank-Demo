@@ -42,7 +42,7 @@ namespace Bank.Repository
         public Loan Create(Loan loan)
         {
             loan.Id = GenerateClientId();
-            AppendLineToFile(_path, ConvertEntityToCSVFormat(loan));
+            AppendLineToFile(ConvertEntityToCSVFormat(loan));
             return loan;
         }
 
@@ -118,15 +118,15 @@ namespace Bank.Repository
                 .ToList();
 
         private void SaveAll(IEnumerable<Loan> loans)
-            => WriteAllLinesToFile(_path,
+            => WriteAllLinesToFile(
                  loans
                  .Select(ConvertEntityToCSVFormat)
                  .ToList());
 
-        private void AppendLineToFile(string path, string line)
-           => File.AppendAllText(path, line + Environment.NewLine);
+        private void AppendLineToFile(string line)
+           => File.AppendAllText(_path, line + Environment.NewLine);
 
-        private void WriteAllLinesToFile(string path, IEnumerable<string> content)
-            => File.WriteAllLines(path, content.ToArray());
+        private void WriteAllLinesToFile(IEnumerable<string> content)
+            => File.WriteAllLines(_path, content.ToArray());
     }
 }

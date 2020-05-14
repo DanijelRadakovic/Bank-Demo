@@ -13,8 +13,8 @@ namespace Bank.Repository
         private const string NOT_FOUND_ERROR = "Account with {0}:{1} can not be found!";
         private const string NOT_UNIQUE_ERROR = "Account number {0} is not unique!";
 
-        private string _path;
-        private string _delimiter;
+        private readonly string _path;
+        private readonly string _delimiter;
         private long _accountNextId;
 
         public AccountRepository(string path, string delimiter)
@@ -57,7 +57,7 @@ namespace Bank.Repository
             if(IsAccountNumberUnique(account.Number))
             {
                 account.Id = GenerateAccountId();
-                AppendLineToFile(_path, ConvertEntityToCSVFormat(account));
+                AppendLineToFile(ConvertEntityToCSVFormat(account));
                 return account;
             }
             else
@@ -129,7 +129,7 @@ namespace Bank.Repository
         }
 
         private void SaveAll(IEnumerable<Account> accounts)
-            => WriteAllLinesToFile(_path,
+            => WriteAllLinesToFile(
                  accounts
                  .Select(ConvertEntityToCSVFormat)
                  .ToList());
@@ -139,10 +139,10 @@ namespace Bank.Repository
                 .Select(ConvertCSVFormatToEntity)
                 .ToList();
 
-        private void AppendLineToFile(string path, string line)
-           => File.AppendAllText(path, line + Environment.NewLine);
+        private void AppendLineToFile(string line)
+           => File.AppendAllText(_path, line + Environment.NewLine);
 
-        private void WriteAllLinesToFile(string path, IEnumerable<string> content)
-            => File.WriteAllLines(path, content.ToArray());
+        private void WriteAllLinesToFile(IEnumerable<string> content)
+            => File.WriteAllLines(_path, content.ToArray());
     }
 }
