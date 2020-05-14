@@ -2,7 +2,7 @@
 
 namespace Bank.Model
 {
-    class Account
+    public class Account
     {
         public long Id { get; set; }
         public AccountNumber Number { get; set; }

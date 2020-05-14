@@ -55,12 +55,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\AccountController.cs" />
+    <Compile Include="Controller\ClientController.cs" />
+    <Compile Include="Controller\LoanController.cs" />
+    <Compile Include="Controller\TransactionController.cs" />
     <Compile Include="Exception\EntityNotFoundException.cs" />
     <Compile Include="Exception\InvalidDateException.cs" />
     <Compile Include="Exception\NotUniqueException.cs" />
     <Compile Include="Exception\ValidationException.cs" />
     <Compile Include="Model\Util\AccountNumber.cs" />
     <Compile Include="Model\Util\Amount.cs" />
+    <Compile Include="Repository\AccountRepository.cs" />
+    <Compile Include="Repository\ClientRepository.cs" />
+    <Compile Include="Repository\LoanRepository.cs" />
+    <Compile Include="Repository\TransactionRepository.cs" />
+    <Compile Include="Service\AccountService.cs" />
+    <Compile Include="Service\ClientService.cs" />
+    <Compile Include="Service\LoanService.cs" />
+    <Compile Include="Service\TransactionService.cs" />
     <Compile Include="View\Converter\AbstractConverter.cs" />
     <Compile Include="View\Converter\ClientConverter.cs" />
     <Compile Include="View\Converter\LoanConverter.cs" />
@@ -111,7 +123,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Account.cs" />
-    <Compile Include="Model\Bank.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\Loan.cs" />
     <Compile Include="Model\Transaction.cs" />
@@ -189,5 +200,6 @@
   <ItemGroup>
     <Resource Include="Resources\Images\bank.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

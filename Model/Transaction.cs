@@ -3,7 +3,7 @@ using System;
 
 namespace Bank.Model
 {
-    class Transaction
+    public class Transaction
     {
         public long Id { get; set; }
         public string Purpose { get; set; }

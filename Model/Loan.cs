@@ -2,7 +2,7 @@
 
 namespace Bank.Model
 {
-    class Loan
+    public class Loan
     {
         public long Id { get; set; }
         public Client Client { get; set; }
