@@ -1,5 +1,9 @@
 ﻿using Bank.Controller;
+using Bank.Model;
 using Bank.Repository;
+using Bank.Repository.CSV.Converter;
+using Bank.Repository.CSV.Stream;
+using Bank.Repository.Sequencer;
 using Bank.Service;
 using System.Windows;
 
@@ -20,10 +24,18 @@ namespace Bank
 
         public App()
         {
-            var accountRepository = new AccountRepository(ACCOUNT_FILE, CSV_DELIMITER);
-            var clientRepository = new ClientRepository(CLIENT_FILE, CSV_DELIMITER, DATETIME_FORMAT);
-            var loanRepository = new LoanRepository(LOAN_FILE, CSV_DELIMITER, DATETIME_FORMAT);
-            var transactionRepository = new TransactionRepository(TRANSACTION_FILE, CSV_DELIMITER, DATETIME_FORMAT);
+            var accountRepository = new AccountRepository(
+                new CSVStream<Account>(ACCOUNT_FILE, new AccountCSVConverter(CSV_DELIMITER)),
+                new LongSequencer());
+            var clientRepository = new ClientRepository(
+                new CSVStream<Client>(CLIENT_FILE, new ClientCSVConverter(CSV_DELIMITER, DATETIME_FORMAT)),
+                new LongSequencer());
+            var loanRepository = new LoanRepository(
+                new CSVStream<Loan>(LOAN_FILE, new LoanCSVConverter(CSV_DELIMITER, DATETIME_FORMAT)),
+                new LongSequencer());
+            var transactionRepository = new TransactionRepository(
+                new CSVStream<Transaction>(TRANSACTION_FILE, new TransactionCSVConverter(CSV_DELIMITER, DATETIME_FORMAT)),
+                new LongSequencer());
 
             var accountService = new AccountService(accountRepository);
             var clientService = new ClientService(clientRepository, accountService);

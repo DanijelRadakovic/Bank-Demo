@@ -1,8 +1,9 @@
 ﻿using Bank.Exception;
 using Bank.Model;
+using Bank.Repository.CSV.Stream;
+using Bank.Repository.Sequencer;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Bank.Repository
@@ -11,26 +12,23 @@ namespace Bank.Repository
     {
         private const string NOT_FOUND_ERROR = "Client with {0}:{1} can not be found!";
 
-        private readonly string _path;
-        private readonly string _delimiter;
-        private readonly string _datetimeFormat;
-        private long _clientNextId;
+        private readonly CSVStream<Client> _stream;
+        private readonly ISequencer<long> _sequencer;
 
-        public ClientRepository(string path, string delimiter, string datetimeFormat)
+        public ClientRepository(CSVStream<Client> stream, ISequencer<long> sequencer)
         {
-            _path = path;
-            _delimiter = delimiter;
-            _datetimeFormat = datetimeFormat;
-            InitializeId();
+            _stream = stream;
+            _sequencer = sequencer;
+            _sequencer.Initialize(GetMaxId(_stream.ReadAll()));
         }
 
-        public IEnumerable<Client> GettAll() => ReadAll();
+        public IEnumerable<Client> GettAll() => _stream.ReadAll();
 
         public Client Get(long id)
         {
             try
             {
-                return ReadAll().SingleOrDefault(client => client.Id == id);
+                return _stream.ReadAll().SingleOrDefault(client => client.Id == id);
             }
             catch (ArgumentException)
             {
@@ -42,7 +40,7 @@ namespace Bank.Repository
         public Client Create(Client client)
         {
             client.Id = GenerateClientId();
-            AppendLineToFile(ConvertEntityToCSVFormat(client));
+            _stream.AppendToFile(client);
             return client;
         }
 
@@ -50,9 +48,9 @@ namespace Bank.Repository
         {
             try
             {
-                var clients = ReadAll().ToList();
+                var clients = _stream.ReadAll().ToList();
                 clients[clients.FindIndex(clt => clt.Id == client.Id)] = client;
-                SaveAll(clients);
+                _stream.SaveAll(clients);
             }
             catch (ArgumentException)
             {
@@ -62,12 +60,12 @@ namespace Bank.Repository
 
         public void Delete(Client client)
         {
-            var clients = ReadAll().ToList();
+            var clients = _stream.ReadAll().ToList();
             var clientToRemove = clients.SingleOrDefault(acc => acc.Id == client.Id);
             if (clientToRemove != null)
             {
                 clients.Remove(clientToRemove);
-                SaveAll(clients);
+                _stream.SaveAll(clients);
             }
             else
             {
@@ -75,49 +73,12 @@ namespace Bank.Repository
             }
         }
 
-        private void InitializeId() => _clientNextId = GetMaxId(ReadAll());
-
         private long GetMaxId(IEnumerable<Client> clients)
             => clients.Count() == 0 ? 0 : clients.Max(clt => clt.Id);
 
-        private long GenerateClientId() => _clientNextId++;
+        private long GenerateClientId() => _sequencer.GenerateId();
 
         private void ThrowEntityNotFoundException(string key, object value)
            => throw new EntityNotFoundException(string.Format(NOT_FOUND_ERROR, key, value));
-
-        private string ConvertEntityToCSVFormat(Client client)
-           => string.Join(_delimiter,
-               client.Id,
-               client.FirstName,
-               client.LastName,
-               client.DateOfBirth.ToString(_datetimeFormat),
-               client.Account.Id);
-
-        private Client ConvertCSVFormatToEntity(string clientCSVFormat)
-        {
-            string[] tokens = clientCSVFormat.Split(_delimiter.ToCharArray());
-            return new Client(
-                long.Parse(tokens[0]),
-                tokens[1], tokens[2],
-                DateTime.Parse(tokens[3]),
-                new Account(long.Parse(tokens[4])));
-        }
-
-        private IEnumerable<Client> ReadAll()
-            => File.ReadAllLines(_path)
-                .Select(ConvertCSVFormatToEntity)
-                .ToList();
-
-        private void SaveAll(IEnumerable<Client> clients)
-            => WriteAllLinesToFile(
-                 clients
-                 .Select(ConvertEntityToCSVFormat)
-                 .ToList());
-
-        private void AppendLineToFile(string line)
-           => File.AppendAllText(_path, line + Environment.NewLine);
-
-        private void WriteAllLinesToFile(IEnumerable<string> content)
-            => File.WriteAllLines(_path, content.ToArray());
     }
 }

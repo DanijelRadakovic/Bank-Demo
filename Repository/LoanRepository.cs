@@ -1,8 +1,9 @@
 ﻿using Bank.Exception;
 using Bank.Model;
+using Bank.Repository.CSV.Stream;
+using Bank.Repository.Sequencer;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Bank.Repository
@@ -11,26 +12,23 @@ namespace Bank.Repository
     {
         private const string NOT_FOUND_ERROR = "Loan with {0}:{1} can not be found!";
 
-        private readonly string _path;
-        private readonly string _delimiter;
-        private readonly string _datetimeFormat;
-        private long _loanNextId;
+        private readonly CSVStream<Loan> _stream;
+        private readonly ISequencer<long> _sequencer;
 
-        public LoanRepository(string path, string delimiter, string datetimeFormat)
+        public LoanRepository(CSVStream<Loan> stream, ISequencer<long> sequencer)
         {
-            _path = path;
-            _delimiter = delimiter;
-            _datetimeFormat = datetimeFormat;
-            InitializeId();
+            _stream = stream;
+            _sequencer = sequencer;
+            _sequencer.Initialize(GetMaxId(_stream.ReadAll()));
         }
 
-        public IEnumerable<Loan> GettAll() => ReadAll();
+        public IEnumerable<Loan> GettAll() => _stream.ReadAll();
 
         public Loan Get(long id)
         {
             try
             {
-                return ReadAll().SingleOrDefault(ln => ln.Id == id);
+                return _stream.ReadAll().SingleOrDefault(ln => ln.Id == id);
             }
             catch (ArgumentException)
             {
@@ -42,7 +40,7 @@ namespace Bank.Repository
         public Loan Create(Loan loan)
         {
             loan.Id = GenerateClientId();
-            AppendLineToFile(ConvertEntityToCSVFormat(loan));
+            _stream.AppendToFile(loan);
             return loan;
         }
 
@@ -50,9 +48,9 @@ namespace Bank.Repository
         {
             try
             {
-                var loans = ReadAll().ToList();
+                var loans = _stream.ReadAll().ToList();
                 loans[loans.FindIndex(clt => clt.Id == loan.Id)] = loan;
-                SaveAll(loans);
+                _stream.SaveAll(loans);
             }
             catch (ArgumentException)
             {
@@ -62,12 +60,12 @@ namespace Bank.Repository
 
         public void Delete(Loan loan)
         {
-            var loans = ReadAll().ToList();
+            var loans = _stream.ReadAll().ToList();
             var loanToRemove = loans.SingleOrDefault(ln => ln.Id == loan.Id);
             if (loanToRemove != null)
             {
                 loans.Remove(loanToRemove);
-                SaveAll(loans);
+                _stream.SaveAll(loans);
             }
             else
             {
@@ -75,58 +73,12 @@ namespace Bank.Repository
             }
         }
 
-        private void InitializeId() => _loanNextId = GetMaxId(ReadAll());
-
         private long GetMaxId(IEnumerable<Loan> loans)
             => loans.Count() == 0 ? 0 : loans.Max(clt => clt.Id);
 
-        private long GenerateClientId() => _loanNextId++;
+        private long GenerateClientId() => _sequencer.GenerateId();
 
         private void ThrowEntityNotFoundException(string key, object value)
            => throw new EntityNotFoundException(string.Format(NOT_FOUND_ERROR, key, value));
-
-        private string ConvertEntityToCSVFormat(Loan loan)
-            => string.Join(_delimiter,
-                loan.Id,
-                loan.Client.Id,
-                loan.ApprovalDate.ToString(_datetimeFormat),
-                loan.Deadline.ToString(_datetimeFormat),
-                loan.Base,
-                loan.InterestRate,
-                loan.NumberOfInstallments,
-                loan.InstallmentAmount,
-                loan.NumberOfPaidIntallments);
-
-        private Loan ConvertCSVFormatToEntity(string loanCSVFormat)
-        {
-            string[] tokens = loanCSVFormat.Split(_delimiter.ToCharArray());
-            return new Loan(
-                long.Parse(tokens[0]),
-                new Client(long.Parse(tokens[1])),
-                DateTime.Parse(tokens[2]),
-                DateTime.Parse(tokens[3]),
-                double.Parse(tokens[4]),
-                double.Parse(tokens[5]),
-                long.Parse(tokens[6]),
-                double.Parse(tokens[7]),
-                long.Parse(tokens[8]));
-        }
-
-        private IEnumerable<Loan> ReadAll()
-            => File.ReadAllLines(_path)
-                .Select(ConvertCSVFormatToEntity)
-                .ToList();
-
-        private void SaveAll(IEnumerable<Loan> loans)
-            => WriteAllLinesToFile(
-                 loans
-                 .Select(ConvertEntityToCSVFormat)
-                 .ToList());
-
-        private void AppendLineToFile(string line)
-           => File.AppendAllText(_path, line + Environment.NewLine);
-
-        private void WriteAllLinesToFile(IEnumerable<string> content)
-            => File.WriteAllLines(_path, content.ToArray());
     }
 }

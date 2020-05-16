@@ -1,9 +1,9 @@
 ﻿using Bank.Exception;
 using Bank.Model;
-using Bank.Model.Util;
+using Bank.Repository.CSV.Stream;
+using Bank.Repository.Sequencer;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Bank.Repository
@@ -12,26 +12,23 @@ namespace Bank.Repository
     {
         private const string NOT_FOUND_ERROR = "Transaction with {0}:{1} can not be found!";
 
-        private readonly string _path;
-        private readonly string _delimiter;
-        private readonly string _datetimeFormat;
-        private long _transactionNextId;
+        private readonly CSVStream<Transaction> _stream;
+        private readonly ISequencer<long> _sequencer;
 
-        public TransactionRepository(string path, string delimiter, string datetimeFormat)
+        public TransactionRepository(CSVStream<Transaction> stream, ISequencer<long> sequencer)
         {
-            _path = path;
-            _delimiter = delimiter;
-            _datetimeFormat = datetimeFormat;
-            InitializeId();
+            _stream = stream;
+            _sequencer = sequencer;
+            _sequencer.Initialize(GetMaxId(_stream.ReadAll()));
         }
 
-        public IEnumerable<Transaction> GettAll() => ReadAll();
+        public IEnumerable<Transaction> GettAll() => _stream.ReadAll();
 
         public Transaction Get(long id)
         {
             try
             {
-                return ReadAll().SingleOrDefault(ln => ln.Id == id);
+                return _stream.ReadAll().SingleOrDefault(ln => ln.Id == id);
             }
             catch (ArgumentException)
             {
@@ -43,7 +40,7 @@ namespace Bank.Repository
         public Transaction Create(Transaction transaction)
         {
             transaction.Id = GenerateClientId();
-            AppendLineToFile(ConvertEntityToCSVFormat(transaction));
+            _stream.AppendToFile(transaction);
             return transaction;
         }
 
@@ -51,9 +48,9 @@ namespace Bank.Repository
         {
             try
             {
-                var transactions = ReadAll().ToList();
+                var transactions = _stream.ReadAll().ToList();
                 transactions[transactions.FindIndex(clt => clt.Id == transaction.Id)] = transaction;
-                SaveAll(transactions);
+                _stream.SaveAll(transactions);
             }
             catch (ArgumentException)
             {
@@ -63,12 +60,12 @@ namespace Bank.Repository
 
         public void Delete(Transaction transaction)
         {
-            var transactions = ReadAll().ToList();
+            var transactions = _stream.ReadAll().ToList();
             var transactionToRemove = transactions.SingleOrDefault(tr => tr.Id == transaction.Id);
             if (transactionToRemove != null)
             {
                 transactions.Remove(transactionToRemove);
-                SaveAll(transactions);
+                _stream.SaveAll(transactions);
             }
             else
             {
@@ -76,52 +73,12 @@ namespace Bank.Repository
             }
         }
 
-        private void InitializeId() => _transactionNextId = GetMaxId(ReadAll());
-
         private long GetMaxId(IEnumerable<Transaction> transactions)
             => transactions.Count() == 0 ? 0 : transactions.Max(clt => clt.Id);
 
-        private long GenerateClientId() => _transactionNextId++;
+        private long GenerateClientId() => _sequencer.GenerateId();
 
         private void ThrowEntityNotFoundException(string key, object value)
            => throw new EntityNotFoundException(string.Format(NOT_FOUND_ERROR, key, value));
-
-        private string ConvertEntityToCSVFormat(Transaction transaction)
-            => string.Join(_delimiter,
-                transaction.Id,
-                transaction.Purpose,
-                transaction.Date.ToString(_datetimeFormat),
-                transaction.Amount,
-                transaction.Payer.Id,
-                transaction.Receiver.Id);
-
-        private Transaction ConvertCSVFormatToEntity(string transactionCSVFormat)
-        {
-            string[] tokens = transactionCSVFormat.Split(_delimiter.ToCharArray());
-            return new Transaction(
-                long.Parse(tokens[0]),
-                tokens[1],
-                DateTime.Parse(tokens[2]),
-                new Amount(double.Parse(tokens[3])),
-                new Client(long.Parse(tokens[4])),
-                new Client(long.Parse(tokens[5])));
-        }
-
-        private IEnumerable<Transaction> ReadAll()
-           => File.ReadAllLines(_path)
-               .Select(ConvertCSVFormatToEntity)
-               .ToList();
-
-        private void SaveAll(IEnumerable<Transaction> transactions)
-            => WriteAllLinesToFile(
-                 transactions
-                 .Select(ConvertEntityToCSVFormat)
-                 .ToList());
-
-        private void AppendLineToFile(string line)
-           => File.AppendAllText(_path, line + Environment.NewLine);
-
-        private void WriteAllLinesToFile(IEnumerable<string> content)
-            => File.WriteAllLines(_path, content.ToArray());
     }
 }

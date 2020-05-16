@@ -1,9 +1,10 @@
 ﻿using Bank.Exception;
 using Bank.Model;
 using Bank.Model.Util;
+using Bank.Repository.CSV.Stream;
+using Bank.Repository.Sequencer;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Bank.Repository
@@ -13,24 +14,23 @@ namespace Bank.Repository
         private const string NOT_FOUND_ERROR = "Account with {0}:{1} can not be found!";
         private const string NOT_UNIQUE_ERROR = "Account number {0} is not unique!";
 
-        private readonly string _path;
-        private readonly string _delimiter;
-        private long _accountNextId;
+        private readonly CSVStream<Account> _stream;
+        private readonly ISequencer<long> _sequencer;
 
-        public AccountRepository(string path, string delimiter)
+        public AccountRepository(CSVStream<Account> stream, ISequencer<long> sequencer)
         {
-            _path = path;
-            _delimiter = delimiter;
-            InitializeId();
+            _stream = stream;
+            _sequencer = sequencer;
+            _sequencer.Initialize(GetMaxId(_stream.ReadAll()));
         }
 
-        public IEnumerable<Account> GettAll() => ReadAll();
+        public IEnumerable<Account> GettAll() => _stream.ReadAll();
 
         public Account Get(long id)
         {
             try
             {
-                return ReadAll().SingleOrDefault(account => account.Id == id);
+                return _stream.ReadAll().SingleOrDefault(account => account.Id == id);
             }
             catch (ArgumentException)
             {
@@ -54,26 +54,26 @@ namespace Bank.Repository
 
         public Account Create(Account account)
         {
-            if(IsAccountNumberUnique(account.Number))
+            if (IsAccountNumberUnique(account.Number))
             {
                 account.Id = GenerateAccountId();
-                AppendLineToFile(ConvertEntityToCSVFormat(account));
+                _stream.AppendToFile(account);
                 return account;
             }
             else
             {
                 throw new NotUniqueException(string.Format(NOT_UNIQUE_ERROR, account.Number));
             }
-            
+
         }
 
         public void Update(Account account)
         {
             try
             {
-                var accounts = ReadAll().ToList();
+                var accounts = _stream.ReadAll().ToList();
                 accounts[accounts.FindIndex(acc => acc.Id == account.Id)] = account;
-                SaveAll(accounts);
+                _stream.SaveAll(accounts);
             }
             catch (ArgumentException)
             {
@@ -84,12 +84,12 @@ namespace Bank.Repository
 
         public void Delete(Account account)
         {
-            var accounts = ReadAll().ToList();
+            var accounts = _stream.ReadAll().ToList();
             var accountToRemove = accounts.SingleOrDefault(acc => acc.Id == account.Id);
             if (accountToRemove != null)
             {
                 accounts.Remove(accountToRemove);
-                SaveAll(accounts);
+                _stream.SaveAll(accounts);
             }
             else
             {
@@ -97,9 +97,7 @@ namespace Bank.Repository
             }
         }
 
-        private long GenerateAccountId() => _accountNextId++;
-
-        private void InitializeId() => _accountNextId = GetMaxId(ReadAll());
+        private long GenerateAccountId() => _sequencer.GenerateId();
 
         private long GetMaxId(IEnumerable<Account> acounts)
             => acounts.Count() == 0 ? 0 : acounts.Max(acc => acc.Id);
@@ -108,41 +106,9 @@ namespace Bank.Repository
            => GetAccountByAccountName(accountNumber) == null;
 
         private Account GetAccountByAccountName(AccountNumber accountNumber)
-            => ReadAll().SingleOrDefault(account => account.Number.Equals(accountNumber));
+            => _stream.ReadAll().SingleOrDefault(account => account.Number.Equals(accountNumber));
 
         private void ThrowEntityNotFoundException(string key, object value)
             => throw new EntityNotFoundException(string.Format(NOT_FOUND_ERROR, key, value));
-
-        private string ConvertEntityToCSVFormat(Account account)
-           => string.Join(_delimiter,
-               account.Id,
-               account.Number,
-               account.Balance);
-
-        private Account ConvertCSVFormatToEntity(string acountCSVFormat)
-        {
-            string[] tokens = acountCSVFormat.Split(_delimiter.ToCharArray());
-            return new Account(
-                long.Parse(tokens[0]),
-                new AccountNumber(tokens[1]),
-                double.Parse(tokens[2]));
-        }
-
-        private void SaveAll(IEnumerable<Account> accounts)
-            => WriteAllLinesToFile(
-                 accounts
-                 .Select(ConvertEntityToCSVFormat)
-                 .ToList());
-
-        private IEnumerable<Account> ReadAll()
-            => File.ReadAllLines(_path)
-                .Select(ConvertCSVFormatToEntity)
-                .ToList();
-
-        private void AppendLineToFile(string line)
-           => File.AppendAllText(_path, line + Environment.NewLine);
-
-        private void WriteAllLinesToFile(IEnumerable<string> content)
-            => File.WriteAllLines(_path, content.ToArray());
     }
 }
