@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Bank.Repository.CSV.Stream
 {
-    public class CSVStream<E> where E : class
+    public class CSVStream<E> : ICSVStream<E> where E : class
     {
         private readonly string _path;
         private readonly ICSVConverter<E> _converter;
@@ -17,22 +17,22 @@ namespace Bank.Repository.CSV.Stream
             _converter = converter;
         }
 
-        public void SaveAll(IEnumerable<E> accounts)
-            => WriteAllLinesToFile(
-                 accounts
-                 .Select(_converter.ConvertEntityToCSVFormat)
-                 .ToList());
+        public void AppendToFile(E entity)
+            => File.AppendAllText(_path,
+               _converter.ConvertEntityToCSVFormat(entity) + Environment.NewLine);
 
         public IEnumerable<E> ReadAll()
             => File.ReadAllLines(_path)
                 .Select(_converter.ConvertCSVFormatToEntity)
                 .ToList();
 
-        public void AppendToFile(E entity)
-           => File.AppendAllText(_path, 
-               _converter.ConvertEntityToCSVFormat(entity) + Environment.NewLine);
+        public void SaveAll(IEnumerable<E> entities)
+            => WriteAllLinesToFile(
+                 entities
+                 .Select(_converter.ConvertEntityToCSVFormat)
+                 .ToList());
 
-        private void WriteAllLinesToFile(IEnumerable<string> content)
+        public void WriteAllLinesToFile(IEnumerable<string> content)
             => File.WriteAllLines(_path, content.ToArray());
     }
 }

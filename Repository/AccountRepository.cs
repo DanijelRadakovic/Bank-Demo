@@ -9,12 +9,12 @@ using System.Linq;
 
 namespace Bank.Repository
 {
-    public class AccountRepository
+    public class AccountRepository : IRepository<Account, long>
     {
         private const string NOT_FOUND_ERROR = "Account with {0}:{1} can not be found!";
         private const string NOT_UNIQUE_ERROR = "Account number {0} is not unique!";
 
-        private readonly CSVStream<Account> _stream;
+        private readonly ICSVStream<Account> _stream;
         private readonly ISequencer<long> _sequencer;
 
         public AccountRepository(CSVStream<Account> stream, ISequencer<long> sequencer)
@@ -24,7 +24,7 @@ namespace Bank.Repository
             _sequencer.Initialize(GetMaxId(_stream.ReadAll()));
         }
 
-        public IEnumerable<Account> GettAll() => _stream.ReadAll();
+        public IEnumerable<Account> GetAll() => _stream.ReadAll();
 
         public Account Get(long id)
         {

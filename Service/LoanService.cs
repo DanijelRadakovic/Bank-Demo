@@ -7,31 +7,31 @@ using System.Linq;
 
 namespace Bank.Service
 {
-    public class LoanService
+    public class LoanService : IService<Loan, long>
     {
         private const string INVALID_DATE_ERROR = "Deadline: {0} is before approval date: {1}!";
 
-        private readonly LoanRepository loanRepository;
-        private readonly ClientService clientService;
+        private readonly IRepository<Loan, long> _loanRepository;
+        private readonly IService<Client, long> _clientService;
 
-        public LoanService(LoanRepository loanRepository, ClientService clientService)
+        public LoanService(IRepository<Loan, long> loanRepository, IService<Client, long> clientService)
         {
-            this.loanRepository = loanRepository;
-            this.clientService = clientService;
+            _loanRepository = loanRepository;
+            _clientService = clientService;
         }
 
         public IEnumerable<Loan> GetAll()
         {
-            var clients = clientService.GetAll();
-            var loans = loanRepository.GettAll();
+            var clients = _clientService.GetAll();
+            var loans = _loanRepository.GetAll();
             BindClientsWithLoans(clients, loans);
             return loans;
         }
 
         public Loan Get(long id)
         {
-            var loan = loanRepository.Get(id);
-            loan.Client = clientService.Get(loan.Client.Id);
+            var loan = _loanRepository.Get(id);
+            loan.Client = _clientService.Get(loan.Client.Id);
             return loan;
         }
 
@@ -47,29 +47,29 @@ namespace Bank.Service
                 SetInstallmentAmount(loan);
                 ApproveLoan(loan);
 
-                clientService.Update(client);
-                newLoan = loanRepository.Create(loan);
+                _clientService.Update(client);
+                newLoan = _loanRepository.Create(loan);
                 newLoan.Client = client;
 
                 return newLoan;
             }
             else
             {
-                throw new InvalidDateException(string.Format(INVALID_DATE_ERROR, 
+                throw new InvalidDateException(string.Format(INVALID_DATE_ERROR,
                     loan.Deadline, loan.ApprovalDate));
             }
         }
 
         public void Update(Loan loan)
         {
-            clientService.Update(loan.Client);
-            loanRepository.Update(loan);
+            _clientService.Update(loan.Client);
+            _loanRepository.Update(loan);
         }
 
         public void Delete(Loan loan)
         {
-            clientService.Delete(loan.Client);
-            loanRepository.Delete(loan);
+            _clientService.Delete(loan.Client);
+            _loanRepository.Delete(loan);
         }
 
         private void SetMissingValues(Loan loan)

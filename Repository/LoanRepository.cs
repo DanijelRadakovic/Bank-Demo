@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace Bank.Repository
 {
-    public class LoanRepository
+    public class LoanRepository : IRepository<Loan, long>
     {
         private const string NOT_FOUND_ERROR = "Loan with {0}:{1} can not be found!";
 
-        private readonly CSVStream<Loan> _stream;
+        private readonly ICSVStream<Loan> _stream;
         private readonly ISequencer<long> _sequencer;
 
         public LoanRepository(CSVStream<Loan> stream, ISequencer<long> sequencer)
@@ -22,7 +22,7 @@ namespace Bank.Repository
             _sequencer.Initialize(GetMaxId(_stream.ReadAll()));
         }
 
-        public IEnumerable<Loan> GettAll() => _stream.ReadAll();
+        public IEnumerable<Loan> GetAll() => _stream.ReadAll();
 
         public Loan Get(long id)
         {

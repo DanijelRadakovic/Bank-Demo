@@ -4,23 +4,23 @@ using System.Collections.Generic;
 
 namespace Bank.Controller
 {
-    public class LoanController
+    public class LoanController : IController<Loan, long>
     {
-        private readonly LoanService service;
+        private readonly IService<Loan, long> _service;
 
-        public LoanController(LoanService service)
+        public LoanController(IService<Loan, long> service)
         {
-            this.service = service;
+            _service = service;
         }
 
-        public IEnumerable<Loan> GetAll() => service.GetAll();
+        public IEnumerable<Loan> GetAll() => _service.GetAll();
 
-        public Loan Get(long id) => service.Get(id);
+        public Loan Get(long id) => _service.Get(id);
 
-        public Loan Create(Loan loan) => service.Create(loan);
+        public Loan Create(Loan loan) => _service.Create(loan);
 
-        public void Update(Loan loan) => service.Update(loan);
+        public void Update(Loan loan) => _service.Update(loan);
 
-        public void Delete(Loan loan) => service.Delete(loan);
+        public void Delete(Loan loan) => _service.Delete(loan);
     }
 }

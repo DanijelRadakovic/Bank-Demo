@@ -6,30 +6,31 @@ using System.Linq;
 
 namespace Bank.Service
 {
-    public class TransactionService
+    public class TransactionService : IService<Transaction, long>
     {
-        private readonly TransactionRepository transactionRepository;
-        private readonly ClientService clientService;
+        private readonly IRepository<Transaction, long> _transactionRepository;
+        private readonly IService<Client, long> _clientService;
 
-        public TransactionService(TransactionRepository transactionRepository, ClientService clientService)
+        public TransactionService(IRepository<Transaction, long> transactionRepository,
+            IService<Client, long> clientService)
         {
-            this.transactionRepository = transactionRepository;
-            this.clientService = clientService;
+            _transactionRepository = transactionRepository;
+            _clientService = clientService;
         }
 
         public IEnumerable<Transaction> GetAll()
         {
-            var clients = clientService.GetAll();
-            var transactions = transactionRepository.GettAll();
+            var clients = _clientService.GetAll();
+            var transactions = _transactionRepository.GetAll();
             BindClientsWithTransactions(clients, transactions);
             return transactions;
         }
 
         public Transaction Get(long id)
         {
-            var transaction = transactionRepository.Get(id);
-            transaction.Payer = clientService.Get(transaction.Payer.Id);
-            transaction.Receiver = clientService.Get(transaction.Receiver.Id);
+            var transaction = _transactionRepository.Get(id);
+            transaction.Payer = _clientService.Get(transaction.Payer.Id);
+            transaction.Receiver = _clientService.Get(transaction.Receiver.Id);
             return transaction;
         }
 
@@ -38,9 +39,9 @@ namespace Bank.Service
             SetMissingValues(transaction);
             ExecuteTransaction(transaction);
 
-            clientService.Update(transaction.Payer);
-            clientService.Update(transaction.Receiver);
-            Transaction newTransaction = transactionRepository.Create(transaction);
+            _clientService.Update(transaction.Payer);
+            _clientService.Update(transaction.Receiver);
+            Transaction newTransaction = _transactionRepository.Create(transaction);
             newTransaction.Payer = transaction.Payer;
             newTransaction.Receiver = transaction.Receiver;
 
@@ -49,16 +50,16 @@ namespace Bank.Service
 
         public void Update(Transaction transaction)
         {
-            clientService.Update(transaction.Payer);
-            clientService.Update(transaction.Receiver);
-            transactionRepository.Update(transaction);
+            _clientService.Update(transaction.Payer);
+            _clientService.Update(transaction.Receiver);
+            _transactionRepository.Update(transaction);
         }
 
         public void Delete(Transaction transaction)
         {
-            clientService.Delete(transaction.Payer);
-            clientService.Delete(transaction.Receiver);
-            transactionRepository.Delete(transaction);
+            _clientService.Delete(transaction.Payer);
+            _clientService.Delete(transaction.Receiver);
+            _transactionRepository.Delete(transaction);
         }
 
 
@@ -66,8 +67,8 @@ namespace Bank.Service
         private void SetMissingValues(Transaction transaction)
         {
             transaction.Date = DateTime.Now;
-            transaction.Payer = clientService.Get(transaction.Payer.Id);
-            transaction.Receiver = clientService.Get(transaction.Receiver.Id);
+            transaction.Payer = _clientService.Get(transaction.Payer.Id);
+            transaction.Receiver = _clientService.Get(transaction.Receiver.Id);
         }
 
         private void ExecuteTransaction(Transaction transaction)

@@ -48,9 +48,9 @@ namespace Bank
             TransactionController = new TransactionController(transactionService);
         }
 
-        public AccountController AccountController { get; private set; }
-        public ClientController ClientController { get; private set; }
-        public LoanController LoanController { get; private set; }
-        public TransactionController TransactionController { get; private set; }
+        public IController<Account, long> AccountController { get; private set; }
+        public IController<Client, long> ClientController { get; private set; }
+        public IController<Loan, long> LoanController { get; private set; }
+        public IController<Transaction, long> TransactionController { get; private set; }
     }
 }

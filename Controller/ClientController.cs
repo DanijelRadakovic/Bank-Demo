@@ -4,23 +4,23 @@ using System.Collections.Generic;
 
 namespace Bank.Controller
 {
-    public class ClientController
+    public class ClientController : IController<Client, long>
     {
-        private readonly ClientService service;
+        private readonly IService<Client, long> _service;
 
-        public ClientController(ClientService service)
+        public ClientController(IService<Client, long> service)
         {
-            this.service = service;
+            _service = service;
         }
 
-        public IEnumerable<Client> GetAll() => service.GetAll();
+        public IEnumerable<Client> GetAll() => _service.GetAll();
 
-        public Client Get(long id) => service.Get(id);
+        public Client Get(long id) => _service.Get(id);
 
-        public Client Create(Client client) => service.Create(client);
+        public Client Create(Client client) => _service.Create(client);
 
-        public void Update(Client client) => service.Update(client);
+        public void Update(Client client) => _service.Update(client);
 
-        public void Delete(Client client) => service.Delete(client);
+        public void Delete(Client client) => _service.Delete(client);
     }
 }

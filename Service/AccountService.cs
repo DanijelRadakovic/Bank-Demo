@@ -4,23 +4,23 @@ using System.Collections.Generic;
 
 namespace Bank.Service
 {
-    public class AccountService
+    public class AccountService : IService<Account,long>
     {
-        private readonly AccountRepository repository;
+        private readonly IRepository<Account, long> _repository;
 
-        public AccountService(AccountRepository repository)
+        public AccountService(IRepository<Account, long> repository)
         {
-            this.repository = repository;
+            _repository = repository;
         }
 
-        public IEnumerable<Account> GetAll() => repository.GettAll();
+        public IEnumerable<Account> GetAll() => _repository.GetAll();
 
-        public Account Get(long id) => repository.Get(id);
+        public Account Get(long id) => _repository.Get(id);
 
-        public Account Create(Account account) => repository.Create(account);
+        public Account Create(Account account) => _repository.Create(account);
 
-        public void Update(Account account) => repository.Update(account);
+        public void Update(Account account) => _repository.Update(account);
 
-        public void Delete(Account account) => repository.Delete(account);
+        public void Delete(Account account) => _repository.Delete(account);
     }
 }

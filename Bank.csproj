@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Controller\AccountController.cs" />
     <Compile Include="Controller\ClientController.cs" />
+    <Compile Include="Controller\IController.cs" />
     <Compile Include="Controller\LoanController.cs" />
     <Compile Include="Controller\TransactionController.cs" />
     <Compile Include="Exception\EntityNotFoundException.cs" />
@@ -73,12 +74,15 @@
     <Compile Include="Repository\CSV\Converter\LoanCSVConverter.cs" />
     <Compile Include="Repository\CSV\Converter\TransactionCSVConverter.cs" />
     <Compile Include="Repository\CSV\Stream\CSVStream.cs" />
+    <Compile Include="Repository\CSV\Stream\ICSVStream.cs" />
+    <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\LoanRepository.cs" />
     <Compile Include="Repository\Sequencer\ISequencer.cs" />
     <Compile Include="Repository\Sequencer\LongSequencer.cs" />
     <Compile Include="Repository\TransactionRepository.cs" />
     <Compile Include="Service\AccountService.cs" />
     <Compile Include="Service\ClientService.cs" />
+    <Compile Include="Service\IService.cs" />
     <Compile Include="Service\LoanService.cs" />
     <Compile Include="Service\TransactionService.cs" />
     <Compile Include="View\Converter\AbstractConverter.cs" />
