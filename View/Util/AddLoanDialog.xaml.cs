@@ -30,8 +30,8 @@ namespace Bank.View.Util
 
         private readonly DateTime _deadlineLowerLimit;
 
-        private readonly LoanController _loanController;
-        private readonly ClientController _clientController;
+        private readonly IController<Loan, long> _loanController;
+        private readonly IController<Client, long> _clientController;
 
         private readonly DataView _dataView;
         private readonly IList<Client> _clients;

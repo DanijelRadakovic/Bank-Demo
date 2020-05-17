@@ -1,4 +1,5 @@
 ﻿using Bank.Controller;
+using Bank.Model;
 using Bank.View.Converter;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace Bank.View.Model
     /// </summary>
     public partial class DataView : UserControl
     {
-        private readonly LoanController _loanController;
-        private readonly TransactionController _transactionController;
+        private readonly IController<Loan, long> _loanController;
+        private readonly IController<Transaction, long> _transactionController;
 
         public ObservableCollection<UserControl> Data { get; set; }
         public DataView()

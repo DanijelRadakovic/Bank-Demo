@@ -23,8 +23,8 @@ namespace Bank.View.Util
         private const string ERROR_MESSAGE = "All fields are mandatory, please fill them!";
         private static readonly Regex _decimalRegex = new Regex("[^0-9.-]+");
 
-        private readonly TransactionController _transactionController;
-        private readonly ClientController _clientController;
+        private readonly IController<Transaction, long> _transactionController;
+        private readonly IController<Client, long> _clientController;
 
         private readonly DataView _dataView;
         private readonly IList<Client> _clients;
