@@ -80,6 +80,7 @@
     <Compile Include="Repository\CSV\Converter\LoanCSVConverter.cs" />
     <Compile Include="Repository\CSV\Converter\TransactionCSVConverter.cs" />
     <Compile Include="Repository\CSV\CSVRepository.cs" />
+    <Compile Include="Repository\CSV\IEagerCSVRepository.cs" />
     <Compile Include="Repository\CSV\Stream\CSVStream.cs" />
     <Compile Include="Repository\CSV\Stream\ICSVStream.cs" />
     <Compile Include="Repository\LoanRepository.cs" />

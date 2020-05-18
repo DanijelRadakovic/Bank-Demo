@@ -29,13 +29,17 @@ namespace Bank
                 new LongSequencer());
             var clientRepository = new ClientRepository(
                 new CSVStream<Client>(CLIENT_FILE, new ClientCSVConverter(CSV_DELIMITER, DATETIME_FORMAT)),
-                new LongSequencer());
+                new LongSequencer(),
+                accountRepository);
             var loanRepository = new LoanRepository(
                 new CSVStream<Loan>(LOAN_FILE, new LoanCSVConverter(CSV_DELIMITER, DATETIME_FORMAT)),
-                new LongSequencer());
+                new LongSequencer(),
+                clientRepository);
             var transactionRepository = new TransactionRepository(
                 new CSVStream<Transaction>(TRANSACTION_FILE, new TransactionCSVConverter(CSV_DELIMITER, DATETIME_FORMAT)),
-                new LongSequencer());
+                new LongSequencer(),
+                clientRepository);
+
 
             var accountService = new AccountService(accountRepository);
             var clientService = new ClientService(clientRepository, accountService);
