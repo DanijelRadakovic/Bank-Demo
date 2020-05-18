@@ -2,7 +2,7 @@
 
 namespace Bank.Repository.CSV.Stream
 {
-    public interface ICSVStream<E> where E : class
+    public interface ICSVStream<E>
     {
         void SaveAll(IEnumerable<E> entities);
         IEnumerable<E> ReadAll();

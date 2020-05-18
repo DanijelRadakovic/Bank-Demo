@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Bank.Repository.Abstract;
+using System;
 
 namespace Bank.Model
 {
-    public class Loan
+    public class Loan : IIdentifiable<long>
     {
         public long Id { get; set; }
         public Client Client { get; set; }
@@ -36,5 +37,9 @@ namespace Bank.Model
             InstallmentAmount = installmentAmount;
             NumberOfPaidIntallments = numberOfPaidIntallments;
         }
+
+        public long GetId() => Id;
+
+        public void SetId(long id) => Id = id;
     }
 }

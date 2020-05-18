@@ -1,5 +1,5 @@
 ﻿using Bank.Model;
-using Bank.Repository;
+using Bank.Repository.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,10 @@ namespace Bank.Service
 {
     public class TransactionService : IService<Transaction, long>
     {
-        private readonly IRepository<Transaction, long> _transactionRepository;
+        private readonly ITransactionRepository _transactionRepository;
         private readonly IService<Client, long> _clientService;
 
-        public TransactionService(IRepository<Transaction, long> transactionRepository,
+        public TransactionService(ITransactionRepository transactionRepository,
             IService<Client, long> clientService)
         {
             _transactionRepository = transactionRepository;

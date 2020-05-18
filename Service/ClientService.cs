@@ -1,5 +1,6 @@
 ﻿using Bank.Model;
 using Bank.Repository;
+using Bank.Repository.Abstract;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,10 +8,10 @@ namespace Bank.Service
 {
     public class ClientService : IService<Client, long>
     {
-        private readonly IRepository<Client, long> _clientRepository;
+        private readonly IClientRepository _clientRepository;
         private readonly IService<Account, long> _accountService;
 
-        public ClientService(IRepository<Client, long> clientRepository,
+        public ClientService(IClientRepository clientRepository,
             IService<Account, long> accountService)
         {
             _clientRepository = clientRepository;

@@ -1,6 +1,6 @@
 ﻿using Bank.Exception;
 using Bank.Model;
-using Bank.Repository;
+using Bank.Repository.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +11,10 @@ namespace Bank.Service
     {
         private const string INVALID_DATE_ERROR = "Deadline: {0} is before approval date: {1}!";
 
-        private readonly IRepository<Loan, long> _loanRepository;
+        private readonly ILoanRepository _loanRepository;
         private readonly IService<Client, long> _clientService;
 
-        public LoanService(IRepository<Loan, long> loanRepository, IService<Client, long> clientService)
+        public LoanService(ILoanRepository loanRepository, IService<Client, long> clientService)
         {
             _loanRepository = loanRepository;
             _clientService = clientService;

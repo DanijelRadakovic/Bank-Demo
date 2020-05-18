@@ -1,14 +1,14 @@
 ﻿using Bank.Model;
-using Bank.Repository;
+using Bank.Repository.Abstract;
 using System.Collections.Generic;
 
 namespace Bank.Service
 {
-    public class AccountService : IService<Account,long>
+    public class AccountService : IService<Account, long>
     {
-        private readonly IRepository<Account, long> _repository;
+        private readonly IAccountRepository _repository;
 
-        public AccountService(IRepository<Account, long> repository)
+        public AccountService(IAccountRepository repository)
         {
             _repository = repository;
         }

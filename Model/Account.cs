@@ -1,8 +1,9 @@
 ﻿using Bank.Model.Util;
+using Bank.Repository.Abstract;
 
 namespace Bank.Model
 {
-    public class Account
+    public class Account : IIdentifiable<long>
     {
         public long Id { get; set; }
         public AccountNumber Number { get; set; }
@@ -20,5 +21,9 @@ namespace Bank.Model
             Number = number;
             Balance = balance;
         }
+
+        public long GetId() => Id;
+
+        public void SetId(long id) => Id = id;
     }
 }

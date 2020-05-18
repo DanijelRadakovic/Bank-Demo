@@ -1,9 +1,10 @@
 ﻿using Bank.Model.Util;
+using Bank.Repository.Abstract;
 using System;
 
 namespace Bank.Model
 {
-    public class Transaction
+    public class Transaction : IIdentifiable<long>
     {
         public long Id { get; set; }
         public string Purpose { get; set; }
@@ -29,5 +30,9 @@ namespace Bank.Model
             Payer = payer;
             Receiver = receiver;
         }
+
+        public long GetId() => Id;
+
+        public void SetId(long id) => Id = id;
     }
 }

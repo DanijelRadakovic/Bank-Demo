@@ -66,6 +66,12 @@
     <Compile Include="Exception\ValidationException.cs" />
     <Compile Include="Model\Util\AccountNumber.cs" />
     <Compile Include="Model\Util\Amount.cs" />
+    <Compile Include="Repository\Abstract\IAccountRepository.cs" />
+    <Compile Include="Repository\Abstract\IClientRepository.cs" />
+    <Compile Include="Repository\Abstract\IIdentifiable.cs" />
+    <Compile Include="Repository\Abstract\ILoanRepository.cs" />
+    <Compile Include="Repository\Abstract\IRepository.cs" />
+    <Compile Include="Repository\Abstract\ITransactionRepository.cs" />
     <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\ClientRepository.cs" />
     <Compile Include="Repository\CSV\Converter\AccountCSVConverter.cs" />
@@ -73,9 +79,9 @@
     <Compile Include="Repository\CSV\Converter\ICSVConverter.cs" />
     <Compile Include="Repository\CSV\Converter\LoanCSVConverter.cs" />
     <Compile Include="Repository\CSV\Converter\TransactionCSVConverter.cs" />
+    <Compile Include="Repository\CSV\CSVRepository.cs" />
     <Compile Include="Repository\CSV\Stream\CSVStream.cs" />
     <Compile Include="Repository\CSV\Stream\ICSVStream.cs" />
-    <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\LoanRepository.cs" />
     <Compile Include="Repository\Sequencer\ISequencer.cs" />
     <Compile Include="Repository\Sequencer\LongSequencer.cs" />
